@@ -1,23 +1,29 @@
 project:
   type: book
-
+  output-dir: docs
+  
+  
 book:
-  title: "saml"
-  author: "Norah Jones"
-  date: "31/3/2025"
+  title: "Statistics and Machine Learning"
+  author: "Nguyen Pham Nguyen The"
   chapters:
     - index.qmd
     - intro.qmd
     - summary.qmd
     - references.qmd
 
+toc: true
+echo: false
+
 bibliography: references.bib
 
 format:
   html:
     theme: cosmo
-  pdf:
-    documentclass: scrreprt
+    code-fold: true
+    code-copy: true
+    fig-format: svg
+    toc-expand: 3
 
 editor: visual
 

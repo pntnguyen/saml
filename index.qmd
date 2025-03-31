@@ -1,9 +1,5 @@
 # Preface {.unnumbered}
 
-This is a Quarto book.
+The content of this book is based on the materials of the [Spring School on Statistic and Machine Learning](https://viasm.edu.vn/hdkh/spring-school-on-saml), which was held by the Vietnam Institute for Advanced Study in Mathematics.
 
-To learn more about Quarto books visit <https://quarto.org/docs/books>.
-
-```{r}
-1 + 1
-```
+![](fig/poster.png){width=500}
