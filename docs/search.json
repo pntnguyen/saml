@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "Statistics and Machine Learning",
     "section": "",
-    "text": "Preface\nThe content of this book is based on the materials of the Spring School on Statistic and Machine Learning, which was held by the Vietnam Institute for Advanced Study in Mathematics."
+    "text": "Preface\nThe content of this book is based on the materials of the Spring School on Statistic and Machine Learning, which was held by the Vietnam Institute for Advanced Study in Mathematics.\n\n\n\nMaterials:\n\nDay 1:\n\nClassification\nComputational Statistics"
   },
   {
     "objectID": "intro.html",
@@ -16,7 +16,7 @@
   {
     "objectID": "summary.html",
     "href": "summary.html",
-    "title": "2  Summary",
+    "title": "1  Summary",
     "section": "",
     "text": "In summary, this book has no content whatsoever.\n\n\nCode\n1 + 1\n\n\n[1] 2"
   },
@@ -25,6 +25,41 @@
     "href": "references.html",
     "title": "References",
     "section": "",
-    "text": "Knuth, Donald E. 1984. “Literate Programming.” Comput.\nJ. 27 (2): 97–111. https://doi.org/10.1093/comjnl/27.2.97."
+    "text": "Sk, Singh. 2020. “The Hold-Up of the Century: Neural Networks Are\nComing from Cognitive Science and Not Machine Learning. Perspectives to\nAvoid a New Dark Age of Artificial Intelligence.” Trends in\nArtificial Intelligence 4 (1). https://doi.org/10.36959/643/306."
+  },
+  {
+    "objectID": "classification.html#introduction-to-learning",
+    "href": "classification.html#introduction-to-learning",
+    "title": "Statistical Classification",
+    "section": "Introduction to learning",
+    "text": "Introduction to learning\n\nWhat is AI?\nArtificial Intelligent (AI) is a field of computer science and mathematics that brings together a set of algorithmic techniques and theories for creating machines that mimic human intelligence.\nQuestion:\n\nHow do Artificial Intelligent (AI) and machine learning really work?\nHow do they learn from our behaviors, preferences, and interactions ?\n\nThe aim of AI is to simulate human intelligence, and in particular to learn a wide range of tasks. There are two possible ways of learning :\n\nRote learning: explicitly memorizing all possible examples to play them back\nGeneralizing learning: extract implicit rules from a large number of examples to reapply them to new situations never encountered before\n\nRote learning is relatively easy for a machine, as long as the examples are available. On the other hand, learning by generalization is difficult, as it requires the extraction of rules that are not explicitly mentioned in the examples\n\n\n\n\n\n\nRelationship between AI, ML, Neural Networks, and Deep Learning (Sk 2020)\n\n\n\nWhat is machine learning?\nMachine learning is a sub-domain of AI, which involves learning from experience or from a database of implicit rules to answer to a given problem. This field focuses on the statistical analysis of training data. This field focuses on the statistical analysis of training data."
+  },
+  {
+    "objectID": "classification.html#supervised-and-unsupervised-learning",
+    "href": "classification.html#supervised-and-unsupervised-learning",
+    "title": "Statistical Classification",
+    "section": "Supervised and unsupervised learning",
+    "text": "Supervised and unsupervised learning"
+  },
+  {
+    "objectID": "classification.html#introduction-to-classification",
+    "href": "classification.html#introduction-to-classification",
+    "title": "Statistical Classification",
+    "section": "Introduction to classification",
+    "text": "Introduction to classification\n\n\n\n\nSk, Singh. 2020. “The Hold-Up of the Century: Neural Networks Are Coming from Cognitive Science and Not Machine Learning. Perspectives to Avoid a New Dark Age of Artificial Intelligence.” Trends in Artificial Intelligence 4 (1). https://doi.org/10.36959/643/306."
+  },
+  {
+    "objectID": "intro.html#introduction-to-learning",
+    "href": "intro.html#introduction-to-learning",
+    "title": "Introduction",
+    "section": "Introduction to learning",
+    "text": "Introduction to learning\n\nWhat is AI?\nArtificial Intelligent (AI) is a field of computer science and mathematics that brings together a set of algorithmic techniques and theories for creating machines that mimic human intelligence.\nQuestion:\n\nHow do Artificial Intelligent (AI) and machine learning really work?\nHow do they learn from our behaviors, preferences, and interactions ?\n\nThe aim of AI is to simulate human intelligence, and in particular to learn a wide range of tasks. There are two possible ways of learning :\n\nRote learning: explicitly memorizing all possible examples to play them back\nGeneralizing learning: extract implicit rules from a large number of examples to reapply them to new situations never encountered before\n\nRote learning is relatively easy for a machine, as long as the examples are available. On the other hand, learning by generalization is difficult, as it requires the extraction of rules that are not explicitly mentioned in the examples\n\n\n\n\n\n\nRelationship between AI, ML, Neural Networks, and Deep Learning (Sk 2020)\n\n\n\nWhat is machine learning?\nMachine learning is a sub-domain of AI, which involves learning from experience or from a database of implicit rules to answer to a given problem. This field focuses on the statistical analysis of training data. This field focuses on the statistical analysis of training data.\nGenerally speaking, machine learning algorithms are divided into several phases:\n\nTraining phase (or learning phase):\n\nThe chosen model is subjected to a large number of significant examples\nThe system then seeks to learn implicit rules based on this data (called training data)\n\nInference phase:\n\nThe trained model can be used on new inputs\n\n\n\n\n\n\n\n\nNote\n\n\n\n\nThe training phase generally precedes the use of the model, although some systems continue to learn indefinitely if they have feedback on the results (this is called on-line learning).\nInputs provided during the inference phase can be processed even if they were not seen by the model during the learning phase.\n\n\n\n\n\nType of machine learning\n\nMachine learning uses different types of learning, with supervised learning and unsupervised learning playing a prominent role.\nDeep learning is a set of techniques that use neural networks to solve complex problems.\nReinforcement learning consists in learning by interacting with the agent’s environment."
+  },
+  {
+    "objectID": "intro.html#supervised-and-unsupervised-learning",
+    "href": "intro.html#supervised-and-unsupervised-learning",
+    "title": "Introduction",
+    "section": "Supervised and unsupervised learning",
+    "text": "Supervised and unsupervised learning\n\nSupervised learning\nWe have the labeled training data \\((x_{i},y_{i})_{i=1,···,n}\\), the n inputs \\(x_{i}\\) and the associated target outputs \\(y_{i}\\). The aim is to train the chosen model so that it can correctly predict the output for unlabeled inputs.\n\n\n\n\n\nSupervised learning is generally used for regression or classification:\n\nRegression is used when the output to be predicted can take continuous values\nClassification is the task of choosing a class (value) from all those possible.\n\nClassic supervised learning algorithms include linear regression, nearest neighbor algorithms, discriminant factor analysis, logistic regression, neural networks, decision trees, random forests and vector support machines.\n\n\nUnsupervised learning\nWe therefore have input data for which we don’t know the associated output. The data set is therefore \\((x_{i})_{i=1,···,n}\\) and the aim of the system is to identify features common to the training data.\nUnsupervised learning is mainly composed of clustering algorithms. These algorithms seek to separate the input data into a given number of groups. Each element in the group must have characteristics close to those of elements in the same group, but relatively distant from those of other groups.\nThe most common unsupervised learning algorithms are the k-means algorithm, hierarchical ascending classification, principal component analysis, DBSCAN, singular value decomposition and some neural networks.\n\n\n\n\nSk, Singh. 2020. “The Hold-Up of the Century: Neural Networks Are Coming from Cognitive Science and Not Machine Learning. Perspectives to Avoid a New Dark Age of Artificial Intelligence.” Trends in Artificial Intelligence 4 (1). https://doi.org/10.36959/643/306."
   }
 ]

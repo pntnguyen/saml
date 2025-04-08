@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Statistics and Machine Learning - Introduction</title>
+<title>Statistics and Machine Learning - 1&nbsp; k-nearest neighbors (KNN)</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,26 +20,7 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for citations */
-div.csl-bib-body { }
-div.csl-entry {
-  clear: both;
-}
-.hanging-indent div.csl-entry {
-  margin-left:2em;
-  text-indent:-2em;
-}
-div.csl-left-margin {
-  min-width:2em;
-  float:left;
-}
-div.csl-right-inline {
-  margin-left:2em;
-  padding-left:1em;
-}
-div.csl-indent {
-  margin-left: 2em;
-}</style>
+</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -49,8 +30,8 @@ div.csl-indent {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./classification.html" rel="next">
-<link href="./index.html" rel="prev">
+<link href="./references.html" rel="next">
+<link href="./classification.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -81,8 +62,6 @@ div.csl-indent {
   }
 }</script>
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 </head>
 
@@ -95,7 +74,7 @@ div.csl-indent {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./intro.html">Introduction</a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./classification.html">Introduction to classification</a></li><li class="breadcrumb-item"><a href="./knn.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">k-nearest neighbors (KNN)</span></a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -128,7 +107,7 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./intro.html" class="sidebar-item-text sidebar-link active">
+  <a href="./intro.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Introduction</span></a>
   </div>
 </li>
@@ -143,7 +122,7 @@ div.csl-indent {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./knn.html" class="sidebar-item-text sidebar-link">
+  <a href="./knn.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">k-nearest neighbors (KNN)</span></span></a>
   </div>
 </li>
@@ -161,30 +140,14 @@ div.csl-indent {
 <div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="3">
-    <h2 id="toc-title">Table of contents</h2>
-   
-  <ul>
-  <li><a href="#introduction-to-learning" id="toc-introduction-to-learning" class="nav-link active" data-scroll-target="#introduction-to-learning">Introduction to learning</a>
-  <ul>
-  <li><a href="#what-is-ai" id="toc-what-is-ai" class="nav-link" data-scroll-target="#what-is-ai">What is AI?</a></li>
-  <li><a href="#what-is-machine-learning" id="toc-what-is-machine-learning" class="nav-link" data-scroll-target="#what-is-machine-learning">What is machine learning?</a></li>
-  <li><a href="#type-of-machine-learning" id="toc-type-of-machine-learning" class="nav-link" data-scroll-target="#type-of-machine-learning">Type of machine learning</a></li>
-  </ul></li>
-  <li><a href="#supervised-and-unsupervised-learning" id="toc-supervised-and-unsupervised-learning" class="nav-link" data-scroll-target="#supervised-and-unsupervised-learning">Supervised and unsupervised learning</a>
-  <ul>
-  <li><a href="#supervised-learning" id="toc-supervised-learning" class="nav-link" data-scroll-target="#supervised-learning">Supervised learning</a></li>
-  <li><a href="#unsupervised-learning" id="toc-unsupervised-learning" class="nav-link" data-scroll-target="#unsupervised-learning">Unsupervised learning</a></li>
-  </ul></li>
-  </ul>
-</nav>
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Introduction</h1>
+<h1 class="title"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">k-nearest neighbors (KNN)</span></h1>
 </div>
 
 
@@ -199,103 +162,8 @@ div.csl-indent {
 
 </header>
 
-<section id="introduction-to-learning" class="level2">
-<h2 class="anchored" data-anchor-id="introduction-to-learning">Introduction to learning</h2>
-<section id="what-is-ai" class="level3">
-<h3 class="anchored" data-anchor-id="what-is-ai">What is AI?</h3>
-<p><strong>Artificial Intelligent (AI)</strong> is a field of computer science and mathematics that brings together a set of algorithmic techniques and theories for creating machines that mimic human intelligence.</p>
-<p>Question:</p>
-<ul>
-<li><p>How do Artificial Intelligent (AI) and machine learning really work?</p></li>
-<li><p>How do they learn from our behaviors, preferences, and interactions ?</p></li>
-</ul>
-<p>The aim of AI is to simulate human intelligence, and in particular to learn a wide range of tasks. There are two possible ways of learning :</p>
-<ul>
-<li><p><strong>Rote learning</strong>: explicitly memorizing all possible examples to play them back</p></li>
-<li><p><strong>Generalizing learning</strong>: extract implicit rules from a large number of examples to reapply them to new situations never encountered before</p></li>
-</ul>
-<p><strong>Rote learning</strong> is relatively easy for a machine, as long as the examples are available. On the other hand, <strong>learning by generalization</strong> is difficult, as it requires the extraction of rules that are not explicitly mentioned in the examples</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="fig/classification/ai_ml_nn_dl.jpg" class="img-fluid figure-img" width="500"></p>
-</figure>
-</div>
-<blockquote class="blockquote">
-<p>Relationship between AI, ML, Neural Networks, and Deep Learning <span class="citation" data-cites="sk2020">(<a href="references.html#ref-sk2020" role="doc-biblioref">Sk 2020</a>)</span></p>
-</blockquote>
-</section>
-<section id="what-is-machine-learning" class="level3">
-<h3 class="anchored" data-anchor-id="what-is-machine-learning">What is machine learning?</h3>
-<p><strong>Machine learning</strong> is a sub-domain of AI, which involves learning from experience or from a database of implicit rules to answer to a given problem. This field focuses on the statistical analysis of training data. This field focuses on the <strong>statistical analysis of training data</strong>.</p>
-<p>Generally speaking, machine learning algorithms are divided into several phases:</p>
-<ul>
-<li><p><strong>Training phase</strong> (or learning phase):</p>
-<ol type="1">
-<li><p>The chosen model is subjected to a large number of significant examples</p></li>
-<li><p>The system then seeks to learn implicit rules based on this data (called <strong>training data</strong>)</p></li>
-</ol></li>
-<li><p><strong>Inference phase</strong>:</p>
-<ol start="3" type="1">
-<li>The trained model can be used on new inputs</li>
-</ol></li>
-</ul>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<ul>
-<li><p>The <strong>training phase</strong> generally precedes the use of the model, although some systems continue to learn indefinitely if they have feedback on the results (this is called <strong>on-line learning</strong>).</p></li>
-<li><p>Inputs provided during the <strong>inference phase</strong> can be processed even if they were not seen by the model during the learning phase.</p></li>
-</ul>
-</div>
-</div>
-</section>
-<section id="type-of-machine-learning" class="level3">
-<h3 class="anchored" data-anchor-id="type-of-machine-learning">Type of machine learning</h3>
-<ul>
-<li><p><strong>Machine learning</strong> uses different types of learning, with <span style="color:blue"><strong>supervised learning</strong></span> and <span style="color:blue"><strong>unsupervised learning</strong></span> playing a prominent role.</p></li>
-<li><p><strong>Deep learning</strong> is a set of techniques that use neural networks to solve complex problems.</p></li>
-<li><p><strong>Reinforcement learning</strong> consists in learning by interacting with the agent’s environment.</p></li>
-</ul>
-</section>
-</section>
-<section id="supervised-and-unsupervised-learning" class="level2">
-<h2 class="anchored" data-anchor-id="supervised-and-unsupervised-learning">Supervised and unsupervised learning</h2>
-<section id="supervised-learning" class="level3">
-<h3 class="anchored" data-anchor-id="supervised-learning">Supervised learning</h3>
-<p>We have the labeled training data <span class="math inline">\((x_{i},y_{i})_{i=1,···,n}\)</span>, the n inputs <span class="math inline">\(x_{i}\)</span> and the associated target outputs <span class="math inline">\(y_{i}\)</span>. The aim is to train the chosen model so that it can correctly predict the output for unlabeled inputs.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="fig/classification/labeled_data.png" class="img-fluid figure-img" width="500"></p>
-</figure>
-</div>
-<p>Supervised learning is generally used for <strong>regression</strong> or <strong>classification</strong>:</p>
-<ul>
-<li><p><strong>Regression</strong> is used when the output to be predicted can take continuous values</p></li>
-<li><p><strong>Classification</strong> is the task of choosing a class (value) from all those possible.</p></li>
-</ul>
-<p>Classic supervised learning algorithms include <span style="color:blue">linear regression, nearest neighbor algorithms, discriminant factor analysis, logistic regression, neural networks, decision trees, random forests</span> and <span style="color:blue">vector support machines</span>.</p>
-</section>
-<section id="unsupervised-learning" class="level3">
-<h3 class="anchored" data-anchor-id="unsupervised-learning">Unsupervised learning</h3>
-<p>We therefore have input data for which we don’t know the associated output. The data set is therefore <span class="math inline">\((x_{i})_{i=1,···,n}\)</span> and the aim of the system is to identify features common to the training data.</p>
-<p>Unsupervised learning is mainly composed of clustering algorithms. These algorithms seek to separate the input data into a given number of groups. Each element in the group must have characteristics close to those of elements in the same group, but relatively distant from those of other groups.</p>
-<p>The most common unsupervised learning algorithms are the <span style="color:blue">k-means algorithm, hierarchical ascending classification, principal component analysis, DBSCAN, singular value decomposition</span> and some <span style="color:blue">neural networks</span>.</p>
 
 
-<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
-<div id="ref-sk2020" class="csl-entry" role="listitem">
-Sk, Singh. 2020. <span>“The Hold-Up of the Century: Neural Networks Are Coming from Cognitive Science and Not Machine Learning. Perspectives to Avoid a New Dark Age of Artificial Intelligence.”</span> <em>Trends in Artificial Intelligence</em> 4 (1). <a href="https://doi.org/10.36959/643/306">https://doi.org/10.36959/643/306</a>.
-</div>
-</div>
-</section>
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -533,13 +401,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./index.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Preface</span>
+      <a href="./classification.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Introduction to classification</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./classification.html" class="pagination-link">
-        <span class="nav-page-text">Introduction to classification</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./references.html" class="pagination-link">
+        <span class="nav-page-text">References</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
