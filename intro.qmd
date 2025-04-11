@@ -1,6 +1,6 @@
 # Introduction {.unnumbered}
 
-## Introduction to learning
+## Introduction to machine learning
 
 ### What is AI?
 
@@ -68,7 +68,7 @@ Supervised learning is generally used for **regression** or **classification**:
 
 -   **Classification** is the task of choosing a class (value) from all those possible.
 
-Classic supervised learning algorithms include [linear regression, nearest neighbor algorithms, discriminant factor analysis, logistic regression, neural networks, decision trees, random forests]{style="color:blue"} and [vector support machines]{style="color:blue"}.
+Classic supervised learning algorithms include [linear regression, nearest neighbor algorithms, discriminant factor analysis, logistic regression, neural networks, decision trees, random forests]{style="color:blue"} and [support vector machines]{style="color:blue"}.
 
 ### Unsupervised learning
 
@@ -77,5 +77,3 @@ We therefore have input data for which we don’t know the associated output. Th
 Unsupervised learning is mainly composed of clustering algorithms. These algorithms seek to separate the input data into a given number of groups. Each element in the group must have characteristics close to those of elements in the same group, but relatively distant from those of other groups.
 
 The most common unsupervised learning algorithms are the [k-means algorithm, hierarchical ascending classification, principal component analysis, DBSCAN, singular value decomposition]{style="color:blue"} and some [neural networks]{style="color:blue"}.
-
-

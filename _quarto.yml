@@ -9,9 +9,11 @@ book:
   chapters:
     - index.qmd
     - intro.qmd
-    - part: classification.qmd
+    - part: intro_classification.qmd
       chapters: 
+      - pred_per.qmd
       - knn.qmd
+      - lda_qda.qmd
     # - summary.qmd
     - references.qmd
 

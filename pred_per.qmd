@@ -1,0 +1,158 @@
+# Predictive performance
+
+## Confusion matrix
+
+The confusion matrix counts the occurrences of predictions according to the true values.
+
+![](fig/classification/confusion_matrix.png)
+
+where $n_{kℓ}$ is the number of observations of class $k$ predicted in the class $ℓ$
+
+## Empirical risk
+
+The [empirical risk]{style="color:blue"} (average cost of misclassification) of the g classification **rule** is
+
+$$
+R(g) = \frac{1}{n} \sum_{k=1}^{K}\sum_{l=1}^{K} C_{kl}n_{kl}
+$$
+Where 
+
+$$
+C_{kl} =
+\begin{cases} 
+1 & k = l \\
+0 &  k \neq l
+\end{cases}
+$$
+
+In the case of a 0-1 cost, we find the [empirical error rate]{style="color:blue"}
+
+$$
+R(g) = \frac{1}{n} \sum_{k=1}^{K}\sum_{l=1 \: l\neq k}^{K} n_{kl}
+$$
+
+## Predictive performances in binary classification
+
+### Precision/Recall/Specificity
+
+![](fig/classification/table2x2.png)
+
+> Confusion matrix in binary classification
+
+- True positive rate (TPR) is also called [sensitivity, recall]{style="color:blue"}.
+
+- The false positive rate (FPR) corresponds to [1 - specificity]{style="color:blue"}.
+
+- The postive predictive value (PPV) is also called [precision]{style="color:blue"}.
+
+### F1- Score  
+
+In binary classification, the F1-score depends on:
+
+ - The positive predictive value (PPV), also called [precision]{style="color:blue"}.
+ 
+ - The true positive rate (TPR), also called [sensitivity, recall]{style="color:blue"}.
+ 
+$$
+F_{1} = \frac{2PPV \times TPR}{PPV + TPR} = \frac{2TP}{2TP + FP + FN}
+$$
+
+::: {.callout-note title="Proof" collapse="true"}
+
+\begin{align}
+F_{1} &= \frac{2PPV \times TPR}{PPV + TPR} \\ 
+      &= \frac{2 \frac{TP}{TP+FP}\times\frac{TP}{TP+FN}}{\frac{TP}{TP+FP} + \frac{TP}{TP+FN}} \\
+
+Numerator &=  2 \frac{TP^2}{(TP+FP)(TP+Fn)} \\
+
+Denominator &= \frac{TP(TP+FN)+TP(TP+FP)}{(TP+FP)(TP+FN)} = \frac{TP(2TP+FN+FP)}{(TP+FP)(TP+FN)} \\
+
+F_{1} &= \frac{2TP^{2}}{(TP+FP)(TP+FN)} \cdot  \frac{(TP+FP)(TP+FN)}{TP(2TP+FN+FP)}\\
+
+      &= \frac{2TP^{2}}{TP(2TP+FN+FP)}\\
+      
+      &= \frac{2TP}{2TP+FN+FP}
+
+\end{align}
+:::
+
+It measures the **classification rule’s ability** to correctly predict class 1 entries and not predict 1 of the class 2 entries.
+
+In the case where the predictions are no longer binary (multi-class), the F-measure is calculated by making the [average of F1 scores for each class]{style="color:blue"}. 
+
+### Kappa de Cohen
+
+In statistics, the [kappa method]{style="color:blue"} (kappa) measures agreement between observers during qualitative coding into categories.
+
+$$
+\kappa = \frac{Pr(a) - Pr(e)}{1 - Pr(e)}
+$$
+
+Where:
+
+- $Pr(a)$ is the proportion of agreement between coders
+
+- $Pr(e)$ is the proportion of a random agreement 
+
+![](fig/classification/kappa_table.png){fig-align="center"}
+
+> Marc and Simon are responsible for defining who will be accepted or not at the final exam in a group of 50 students. Each of them checks the copy of each student and notes received or not (YES or NO)
+
+$$
+P_{a} = \frac {a+d}{a+b+c+d} = \frac{20+15}{50}
+$$
+
+To calculate the probability of agreement “at random”, we note :
+
+- Simon scored YES to 25 students, or 50% of the cases.
+
+- Marc scored YES in 60%, 30 out of 50 students.
+
+$$
+P_{YES} = \frac{a+b}{a+b+c+d} \times \frac{a+c}{a+b+c+d} = 0.5 \times 0.6 = 0.3
+$$
+
+$$
+P_{NO} = \frac{c+d}{a+b+c+d} \times \frac{b+d}{a+b+c+d} = 0.5 \times 0.4 = 0.2
+$$
+
+The global probability that the teachers agree is:
+
+$$
+P_{e} = P_{YES} + P_{NO} = 0.3 + 0.2 = 0.5
+$$
+
+Kappa’s formula then gives :
+
+$$
+\kappa = \frac{Pr(a) - Pr(e)}{1 - Pr(e)} = \frac{0.7 - 0.5}{1 - 0.5} = 0.4
+$$
+
+### ROC curve
+
+- The ROC curve is a  graphical representation used to evaluate the performance of a binary classification model. It illustrates the trade-off between [sensitivity (TPR)]{style="color:blue"} and [specificity (1 - FPR)]{style="color:blue"} on different threshold parameters.
+
+- The shape of the ROC curve gives an overview of the efficiency of a classification model. A curve that slopes towards the upper left corner indicates a model with high sensitivity and specificity, while a curve closer to the diagonal line suggests a model with low discriminative power.
+
+- The area under the ROC curve (AUC) is an essential measure of model performance. It is calculated by integrating the area under the ROC curve, providing a single scalar value that summarizes the model’s ability to distinguish between classes. An AUC:
+
+  - of 0.5 suggests absence of [discriminating ability]{style="color:blue"}
+  
+  - from 0.7 to 0.8 is considered as [acceptable]{style="color:blue"}
+  
+  - greater than 0.8 indicates [good performance]{style="color:blue"}
+  
+  - greater than 0.9 suggests [excellent performance]{style="color:blue"}
+  
+  - of 1 indicates [perfect classification]{style="color:blue"}
+  
+:::{.callout-warning title="Take home message"}
+
+A good model is both:
+
+- [sensitive]{style="color:blue"} and [specificity]{style="color:blue"}. This is measured with the ROC curve and the [AUC]{style="color:blue"}.
+
+- [sensible]{style="color:blue"} and [accurate]{style="color:blue"}. This is measured with the [F1-measure]{style="color:blue"}.
+:::
+  
+  

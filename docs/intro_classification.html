@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Statistics and Machine Learning - 2&nbsp; k-nearest neighbors (KNN)</title>
+<title>Statistics and Machine Learning - Classification</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -30,8 +30,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./lda_qda.html" rel="next">
-<link href="./pred_per.html" rel="prev">
+<link href="./pred_per.html" rel="next">
+<link href="./intro.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -62,6 +62,8 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 </head>
 
@@ -74,7 +76,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./intro_classification.html">Classification</a></li><li class="breadcrumb-item"><a href="./knn.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">k-nearest neighbors (KNN)</span></a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./intro_classification.html">Classification</a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -113,7 +115,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="./intro_classification.html" class="sidebar-item-text sidebar-link">
+            <a href="./intro_classification.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Classification</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
@@ -128,7 +130,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./knn.html" class="sidebar-item-text sidebar-link active">
+  <a href="./knn.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">k-nearest neighbors (KNN)</span></span></a>
   </div>
 </li>
@@ -152,14 +154,22 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="3">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#introduction-to-classification" id="toc-introduction-to-classification" class="nav-link active" data-scroll-target="#introduction-to-classification">Introduction to classification</a></li>
+  <li><a href="#supervised-classification" id="toc-supervised-classification" class="nav-link" data-scroll-target="#supervised-classification">Supervised classification</a></li>
+  <li><a href="#unsupervised-classification" id="toc-unsupervised-classification" class="nav-link" data-scroll-target="#unsupervised-classification">Unsupervised classification</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">k-nearest neighbors (KNN)</span></h1>
+<h1 class="title">Classification</h1>
 </div>
 
 
@@ -174,8 +184,75 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
+<section id="introduction-to-classification" class="level2">
+<h2 class="anchored" data-anchor-id="introduction-to-classification">Introduction to classification</h2>
+<p>The aim of classification is to group (partition, segment) <span class="math inline">\(n\)</span> observations into a number of homogeneous groups or classes. There are two main types of classification :</p>
+<ul>
+<li><p><span style="color:blue"><strong>Supervised classification</strong></span>, often referred to simply as <span style="color:blue">classification</span></p></li>
+<li><p><span style="color:blue"><strong>Unsupervised classification</strong></span>, sometimes called partitioning, segmentation, or <span style="color:blue">clustering</span>.</p></li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="fig/classification/sl_usl.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</section>
+<section id="supervised-classification" class="level2">
+<h2 class="anchored" data-anchor-id="supervised-classification">Supervised classification</h2>
+<p>In supervised classification,</p>
+<ul>
+<li><p>We already know how many groups exist in the population</p></li>
+<li><p>We know the group to which each observation in the population belongs</p></li>
+<li><p>We want to classify the observations in the right groups based on different variables</p></li>
+</ul>
+<p>We can then use a classification rule to <span style="color:blue">predict</span> the groups to which new observations belong.</p>
+<p>Some examples of applications:</p>
+<ul>
+<li><p>Recognize hand written numbers</p></li>
+<li><p>Identify the type of cancer patients has</p></li>
+</ul>
+<p>There are several families of <strong>supervised classification methods</strong>. The most common are <span style="color:blue">nearest neighbor method, discriminant factor analysis, classification trees, logistic regression, naive Bayesian, neural networks, support vector machines</span>.</p>
+<p>We have the data with n individuals described by their values of X and Y.</p>
+<span class="math display">\[\begin{aligned}
+X_n =
+\begin{bmatrix}
+    x_{11} &amp; x_{12} &amp; x_{13} &amp; \dots  &amp; x_{1p} \\
+    x_{21} &amp; x_{22} &amp; x_{23} &amp; \dots  &amp; x_{2p} \\
+    \vdots &amp; \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+    x_{n1} &amp; x_{n2} &amp; x_{n3} &amp; \dots  &amp; x_{np}
+\end{bmatrix}
+
+\quad
+et
+\quad
+
+Y_n =
+\begin{bmatrix}
+    y_{1} \\
+    y_{2} \\
+    \vdots \\
+    y_{n}
+\end{bmatrix}
+\end{aligned}\]</span>
+<p>We want to predict the class <span class="math inline">\(y_0\)</span> of a new input <span class="math inline">\(x_0 = (x_{01},x_{02},...,x_{0p})\)</span></p>
+</section>
+<section id="unsupervised-classification" class="level2">
+<h2 class="anchored" data-anchor-id="unsupervised-classification">Unsupervised classification</h2>
+<p>In unsupervised classification,</p>
+<ul>
+<li><p>In general, we don’t know how many groups exist in the population</p></li>
+<li><p>We don’t know the group to which each observation in the population belongs</p></li>
+<li><p>We want to classify observations into homogeneous groups based on different variables</p></li>
+</ul>
+<p>Application examples:</p>
+<ul>
+<li><p>In psychology : the determination of personality types present in a group of individuals</p></li>
+<li><p>In text mining : partitioning e-mails or texts according to subject</p></li>
+</ul>
+<p>There are several families of <strong>unsupervised classification methods</strong>. The most common are <span style="color:blue">hierarchical classification, k-means method, density-based classification, mixture of normal distributions</span>.</p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -413,13 +490,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./pred_per.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Predictive performance</span></span>
+      <a href="./intro.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Introduction</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./lda_qda.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Discriminant analysis</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./pred_per.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Predictive performance</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

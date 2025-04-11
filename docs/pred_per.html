@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Statistics and Machine Learning - 2&nbsp; k-nearest neighbors (KNN)</title>
+<title>Statistics and Machine Learning - 1&nbsp; Predictive performance</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -30,8 +30,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./lda_qda.html" rel="next">
-<link href="./pred_per.html" rel="prev">
+<link href="./knn.html" rel="next">
+<link href="./intro_classification.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -62,6 +62,8 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 </head>
 
@@ -74,7 +76,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./intro_classification.html">Classification</a></li><li class="breadcrumb-item"><a href="./knn.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">k-nearest neighbors (KNN)</span></a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./intro_classification.html">Classification</a></li><li class="breadcrumb-item"><a href="./pred_per.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Predictive performance</span></a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -122,13 +124,13 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./pred_per.html" class="sidebar-item-text sidebar-link">
+  <a href="./pred_per.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Predictive performance</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./knn.html" class="sidebar-item-text sidebar-link active">
+  <a href="./knn.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">k-nearest neighbors (KNN)</span></span></a>
   </div>
 </li>
@@ -152,14 +154,28 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="3">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#confusion-matrix" id="toc-confusion-matrix" class="nav-link active" data-scroll-target="#confusion-matrix"><span class="header-section-number">1.1</span> Confusion matrix</a></li>
+  <li><a href="#empirical-risk" id="toc-empirical-risk" class="nav-link" data-scroll-target="#empirical-risk"><span class="header-section-number">1.2</span> Empirical risk</a></li>
+  <li><a href="#predictive-performances-in-binary-classification" id="toc-predictive-performances-in-binary-classification" class="nav-link" data-scroll-target="#predictive-performances-in-binary-classification"><span class="header-section-number">1.3</span> Predictive performances in binary classification</a>
+  <ul>
+  <li><a href="#precisionrecallspecificity" id="toc-precisionrecallspecificity" class="nav-link" data-scroll-target="#precisionrecallspecificity"><span class="header-section-number">1.3.1</span> Precision/Recall/Specificity</a></li>
+  <li><a href="#f1--score" id="toc-f1--score" class="nav-link" data-scroll-target="#f1--score"><span class="header-section-number">1.3.2</span> F1- Score</a></li>
+  <li><a href="#kappa-de-cohen" id="toc-kappa-de-cohen" class="nav-link" data-scroll-target="#kappa-de-cohen"><span class="header-section-number">1.3.3</span> Kappa de Cohen</a></li>
+  <li><a href="#roc-curve" id="toc-roc-curve" class="nav-link" data-scroll-target="#roc-curve"><span class="header-section-number">1.3.4</span> ROC curve</a></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">k-nearest neighbors (KNN)</span></h1>
+<h1 class="title"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Predictive performance</span></h1>
 </div>
 
 
@@ -174,8 +190,164 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
+<section id="confusion-matrix" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="confusion-matrix"><span class="header-section-number">1.1</span> Confusion matrix</h2>
+<p>The confusion matrix counts the occurrences of predictions according to the true values.</p>
+<p><img src="fig/classification/confusion_matrix.png" class="img-fluid"></p>
+<p>where <span class="math inline">\(n_{kℓ}\)</span> is the number of observations of class <span class="math inline">\(k\)</span> predicted in the class <span class="math inline">\(ℓ\)</span></p>
+</section>
+<section id="empirical-risk" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="empirical-risk"><span class="header-section-number">1.2</span> Empirical risk</h2>
+<p>The <span style="color:blue">empirical risk</span> (average cost of misclassification) of the g classification <strong>rule</strong> is</p>
+<p><span class="math display">\[
+R(g) = \frac{1}{n} \sum_{k=1}^{K}\sum_{l=1}^{K} C_{kl}n_{kl}
+\]</span> Where</p>
+<p><span class="math display">\[
+C_{kl} =
+\begin{cases}
+1 &amp; k = l \\
+0 &amp;  k \neq l
+\end{cases}
+\]</span></p>
+<p>In the case of a 0-1 cost, we find the <span style="color:blue">empirical error rate</span></p>
+<p><span class="math display">\[
+R(g) = \frac{1}{n} \sum_{k=1}^{K}\sum_{l=1 \: l\neq k}^{K} n_{kl}
+\]</span></p>
+</section>
+<section id="predictive-performances-in-binary-classification" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="predictive-performances-in-binary-classification"><span class="header-section-number">1.3</span> Predictive performances in binary classification</h2>
+<section id="precisionrecallspecificity" class="level3" data-number="1.3.1">
+<h3 data-number="1.3.1" class="anchored" data-anchor-id="precisionrecallspecificity"><span class="header-section-number">1.3.1</span> Precision/Recall/Specificity</h3>
+<p><img src="fig/classification/table2x2.png" class="img-fluid"></p>
+<blockquote class="blockquote">
+<p>Confusion matrix in binary classification</p>
+</blockquote>
+<ul>
+<li><p>True positive rate (TPR) is also called <span style="color:blue">sensitivity, recall</span>.</p></li>
+<li><p>The false positive rate (FPR) corresponds to <span style="color:blue">1 - specificity</span>.</p></li>
+<li><p>The postive predictive value (PPV) is also called <span style="color:blue">precision</span>.</p></li>
+</ul>
+</section>
+<section id="f1--score" class="level3" data-number="1.3.2">
+<h3 data-number="1.3.2" class="anchored" data-anchor-id="f1--score"><span class="header-section-number">1.3.2</span> F1- Score</h3>
+<p>In binary classification, the F1-score depends on:</p>
+<ul>
+<li><p>The positive predictive value (PPV), also called <span style="color:blue">precision</span>.</p></li>
+<li><p>The true positive rate (TPR), also called <span style="color:blue">sensitivity, recall</span>.</p></li>
+</ul>
+<p><span class="math display">\[
+F_{1} = \frac{2PPV \times TPR}{PPV + TPR} = \frac{2TP}{2TP + FP + FN}
+\]</span></p>
+<div class="callout callout-style-default callout-note callout-titled" title="Proof">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Proof
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><span class="math display">\[\begin{align}
+F_{1} &amp;= \frac{2PPV \times TPR}{PPV + TPR} \\
+      &amp;= \frac{2 \frac{TP}{TP+FP}\times\frac{TP}{TP+FN}}{\frac{TP}{TP+FP} + \frac{TP}{TP+FN}} \\
+
+Numerator &amp;=  2 \frac{TP^2}{(TP+FP)(TP+Fn)} \\
+
+Denominator &amp;= \frac{TP(TP+FN)+TP(TP+FP)}{(TP+FP)(TP+FN)} = \frac{TP(2TP+FN+FP)}{(TP+FP)(TP+FN)} \\
+
+F_{1} &amp;= \frac{2TP^{2}}{(TP+FP)(TP+FN)} \cdot  \frac{(TP+FP)(TP+FN)}{TP(2TP+FN+FP)}\\
+
+      &amp;= \frac{2TP^{2}}{TP(2TP+FN+FP)}\\
+      
+      &amp;= \frac{2TP}{2TP+FN+FP}
+
+\end{align}\]</span></p>
+</div>
+</div>
+</div>
+<p>It measures the <strong>classification rule’s ability</strong> to correctly predict class 1 entries and not predict 1 of the class 2 entries.</p>
+<p>In the case where the predictions are no longer binary (multi-class), the F-measure is calculated by making the <span style="color:blue">average of F1 scores for each class</span>.</p>
+</section>
+<section id="kappa-de-cohen" class="level3" data-number="1.3.3">
+<h3 data-number="1.3.3" class="anchored" data-anchor-id="kappa-de-cohen"><span class="header-section-number">1.3.3</span> Kappa de Cohen</h3>
+<p>In statistics, the <span style="color:blue">kappa method</span> (kappa) measures agreement between observers during qualitative coding into categories.</p>
+<p><span class="math display">\[
+\kappa = \frac{Pr(a) - Pr(e)}{1 - Pr(e)}
+\]</span></p>
+<p>Where:</p>
+<ul>
+<li><p><span class="math inline">\(Pr(a)\)</span> is the proportion of agreement between coders</p></li>
+<li><p><span class="math inline">\(Pr(e)\)</span> is the proportion of a random agreement</p></li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="fig/classification/kappa_table.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+<blockquote class="blockquote">
+<p>Marc and Simon are responsible for defining who will be accepted or not at the final exam in a group of 50 students. Each of them checks the copy of each student and notes received or not (YES or NO)</p>
+</blockquote>
+<p><span class="math display">\[
+P_{a} = \frac {a+d}{a+b+c+d} = \frac{20+15}{50}
+\]</span></p>
+<p>To calculate the probability of agreement “at random”, we note :</p>
+<ul>
+<li><p>Simon scored YES to 25 students, or 50% of the cases.</p></li>
+<li><p>Marc scored YES in 60%, 30 out of 50 students.</p></li>
+</ul>
+<p><span class="math display">\[
+P_{YES} = \frac{a+b}{a+b+c+d} \times \frac{a+c}{a+b+c+d} = 0.5 \times 0.6 = 0.3
+\]</span></p>
+<p><span class="math display">\[
+P_{NO} = \frac{c+d}{a+b+c+d} \times \frac{b+d}{a+b+c+d} = 0.5 \times 0.4 = 0.2
+\]</span></p>
+<p>The global probability that the teachers agree is:</p>
+<p><span class="math display">\[
+P_{e} = P_{YES} + P_{NO} = 0.3 + 0.2 = 0.5
+\]</span></p>
+<p>Kappa’s formula then gives :</p>
+<p><span class="math display">\[
+\kappa = \frac{Pr(a) - Pr(e)}{1 - Pr(e)} = \frac{0.7 - 0.5}{1 - 0.5} = 0.4
+\]</span></p>
+</section>
+<section id="roc-curve" class="level3" data-number="1.3.4">
+<h3 data-number="1.3.4" class="anchored" data-anchor-id="roc-curve"><span class="header-section-number">1.3.4</span> ROC curve</h3>
+<ul>
+<li><p>The ROC curve is a graphical representation used to evaluate the performance of a binary classification model. It illustrates the trade-off between <span style="color:blue">sensitivity (TPR)</span> and <span style="color:blue">specificity (1 - FPR)</span> on different threshold parameters.</p></li>
+<li><p>The shape of the ROC curve gives an overview of the efficiency of a classification model. A curve that slopes towards the upper left corner indicates a model with high sensitivity and specificity, while a curve closer to the diagonal line suggests a model with low discriminative power.</p></li>
+<li><p>The area under the ROC curve (AUC) is an essential measure of model performance. It is calculated by integrating the area under the ROC curve, providing a single scalar value that summarizes the model’s ability to distinguish between classes. An AUC:</p>
+<ul>
+<li><p>of 0.5 suggests absence of <span style="color:blue">discriminating ability</span></p></li>
+<li><p>from 0.7 to 0.8 is considered as <span style="color:blue">acceptable</span></p></li>
+<li><p>greater than 0.8 indicates <span style="color:blue">good performance</span></p></li>
+<li><p>greater than 0.9 suggests <span style="color:blue">excellent performance</span></p></li>
+<li><p>of 1 indicates <span style="color:blue">perfect classification</span></p></li>
+</ul></li>
+</ul>
+<div class="callout callout-style-default callout-warning callout-titled" title="Take home message">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Take home message
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A good model is both:</p>
+<ul>
+<li><p><span style="color:blue">sensitive</span> and <span style="color:blue">specificity</span>. This is measured with the ROC curve and the <span style="color:blue">AUC</span>.</p></li>
+<li><p><span style="color:blue">sensible</span> and <span style="color:blue">accurate</span>. This is measured with the <span style="color:blue">F1-measure</span>.</p></li>
+</ul>
+</div>
+</div>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -413,13 +585,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./pred_per.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Predictive performance</span></span>
+      <a href="./intro_classification.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Classification</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./lda_qda.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Discriminant analysis</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./knn.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">k-nearest neighbors (KNN)</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
