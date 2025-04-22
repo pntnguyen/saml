@@ -123,11 +123,11 @@ $\{Brigitte, Marie, Vincent, Alex, Manue, Fred\} \}$
 
 By defining a [cut level]{style="color:blue"}, we will obtain a partition.
 
-[$\mathcal{P} = \{ \{Marie\},\{Alex,Fred\}, \{Manue\}, \{Brigitte\} ,\{Vincent\}   \}$]{style="color:red"}
+[$\mathcal{P} = \{ \{Marie\},\{Alex,Fred\}, \{Manue\}, \{Brigitte\} ,\{Vincent\} \}$]{style="color:red"}
 
-[$\mathcal{P} = \{ \{Marie\},\{Alex,Fred\}, \{Manue\}, \{Brigitte,Vincent\}   \}$]{style="color:yellow"}
+[$\mathcal{P} = \{ \{Marie\},\{Alex,Fred\}, \{Manue\}, \{Brigitte,Vincent\} \}$]{style="color:yellow"}
 
-[$\mathcal{P} = \{ \{Marie\},\{Alex,Fred\}, \{Manue,Brigitte,Vincent\}  \}$]{style="color:blue"}
+[$\mathcal{P} = \{ \{Marie\},\{Alex,Fred\}, \{Manue,Brigitte,Vincent\} \}$]{style="color:blue"}
 
 [$\mathcal{P} = \{ \{Marie, Alex,Fred\}, \{Manue,Brigitte,Vincent\} \}$]{style="color:pink"}
 
@@ -339,3 +339,18 @@ To obtain a good partitioning, it is therefore appropriate to both :
 -   minimize the [intra-class inertia]{style="color:blue"} to obtain the most homogeneous clusters possible
 
 -   maximize the [inter-class inertia]{style="color:blue"} to obtain well-differentiated subsets
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
