@@ -1,0 +1,390 @@
+# Hierachical ascending classification
+
+## Principle
+
+### First strategy: [Agglomerative Hierarchical Clustering]{style="color:blue"} 
+
+  - Start from the bottom of the dendrogram (singletons),
+  
+  - Add the closest parts two by two until you get a single class
+
+![](fig/classification/HAC.png){fig-align="center"}
+
+> Source: [@janssen2012](https://www.researchgate.net/figure/Example-of-hierarchical-clustering-clusters-are-consecutively-merged-with-the-most_fig3_273456906)
+
+![](fig/classification/hac2.png){fig-align="center"}
+
+> Source: [Data analysis MOOC of Francois Husson](https://husson.github.io/MOOC_AnaDo/classif_cours_slides.pdf)
+
+
+::: callout-note
+
+#### **Where to cut the dendogram?**{.unnumbered} 
+
+[Rule of thumb]{style="color:blue"}
+
+- Selection of a cut when there is a [significant jump]{style="color:blue"}  in the index [by visual]{style="color:blue"} inspection of the tree. This jump reflects the sudden passage from a certain homogeneity of classes to much less homogeneous classes.
+
+:::
+
+### Second strategy: [Divide the hierarchical clustering]{style="color:blue"} 
+
+  - Start from the top of the dendrogram (one unique class),
+  
+  - Successive divisions until you get classes reduced to singlets.
+
+![](fig/classification/dhc.webp){fig-align="center"}
+
+## Weaknesses and strengths
+
+Advantages
+
+  - Simple considerations of distances and similarities
+  
+  - No assumption on the number of classes
+  
+  - Can correspond to significant taxonomies
+  
+Disadvantages
+
+  - Choice of the dendogram cutoff.
+  
+  - The partition obtained at a step depends on that of the previous step.
+
+  - Once a decision is made to combine classes, it cannot be undone.
+
+  - Too slow for large datasets.
+
+## Practical
+
+### Example 1
+
+We consider the following data table where 4 individuals (here points) A,B,C and D are described on two variables (X1 and X2):
+
+::: columns
+::: {.column width="30%"}
+|     | X1  | X2  |
+|-----|-----|-----|
+| A   | 5   | 4   |
+| B   | 4   | 5   |
+| C   | 1   | -2  |
+| D   | 0   | -3  |
+:::
+
+::: {.column width="70%"}
+```{r,message=FALSE}
+library(ggdendro)
+library(tidyverse)
+
+X <- data.frame(
+  X1 = c(5, 4, 1, 0),
+  X2 = c(4, 5, -2, -3)
+)
+
+rownames(X) <- c("A","B","C","D") 
+
+ggplot(X, aes(x = X1, y = X2)) +
+geom_point(size = 4) + # Points
+geom_text(aes(label = rownames(X)), vjust = -0.5, hjust = 1.5) + # Add the labels
+geom_hline(yintercept = 0, linetype = "dashed") + # Horizontal line
+geom_vline(xintercept = 0, linetype = "dashed") + # Vertical line
+theme_minimal() + # Minimal theme
+xlim(-3.5, 5.5) + # x-axis limits
+ylim(-3.5, 5.5) + # y-axis limits
+labs(title = "Points cloud", x = "X1", y = "X2")
+
+```
+:::
+:::
+
+
+#### Construct the dendrogram using maximal link
+
+$\mathcal{P}^{\{0\}} = \{\{A\},\{B\},\{C\},\{D\}\}$
+
+-   **Step 1:**
+
+```{r,message=FALSE}
+
+library("proxy")
+
+a <- data.frame(x = 5,y=4)
+b <- data.frame(x = 4,y=5)
+c <- data.frame(x = 1,y=-2)
+d <- data.frame(x = 0,y=-3)
+
+d_ab <- dist(a,b,method="euclidean")
+d_ac <- dist(a,c,method="euclidean")
+d_ad <- dist(a,d,method="euclidean")
+d_bc <- dist(b,c,method="euclidean")
+d_bd <- dist(b,d,method="euclidean")
+d_cd <- dist(c,d,method="euclidean")
+
+```
+
+::: columns
+::: {.column width="40%"}
+$d(A,B)$ = `r d_ab`
+
+$d(A,C)$ = `r d_ac`
+
+$d(A,D)$ = `r d_ad`
+
+$d(B,C)$ = `r d_bc`
+
+$d(B,D)$ = `r d_bd`
+
+$d(C,D)$ = `r d_cd`
+:::
+
+::: {.column width="40%"}
+|       | A        | B        | C        | D   |
+|-------|----------|----------|----------|-----|
+| **A** | 0        |          |          |     |
+| **B** | `r d_ab` | 0        |          |     |
+| **C** | `r d_ac` | `r d_bc` | 0        |     |
+| **D** | `r d_ad` | `r d_bd` | `r d_cd` | 0   |
+:::
+:::
+
+=\> $\mathcal{P}^{\{1\}} = \{\{A,B\},\{C\},\{D\}\}$
+
+We can choose: minimal link, maximum link, average link, or Ward's link. In this case, I selected maximum link:
+
+```{=tex}
+\begin{align}
+
+D(C_k,C_{k'}) = \max_{x \in C_k ,\: x' \in C_{k'}} d(x,x') 
+
+\end{align}
+```
+::: columns
+::: {.column width="50%"}
+-   **Step 2:**
+
+$D(\{A,B\},\{C\}) \\$
+
+= $max(d(A,C),d(B,C))$
+
+= $max(7.21,7.61) = {\bf 7.61}$
+
+$D(\{A,B\},\{D\}) \\$
+
+= $max(d(A,D),d(B,D))$
+
+= $max(8.6,8.9) = {\bf 8.9}$
+
+$D(\{C\},\{D\}) = d(C,D) = 1.41$
+
+$D(\{A\},\{B\}) = d(A,B) = 1.41$
+
+=\> $\mathcal{P}^{\{2\}} = \{\{A,B\},\{C,D\}\}$
+:::
+
+::: {.column width="50%"}
+-   **Step 3:**
+
+$D(\{A,B\},\{C,D\})$
+
+= $max(d(A,C),d(A,D),d(B,C),d(B,D))$
+
+= 8.9
+
+=\> $\mathcal{P}^{\{3\}} = \{A,B,C,D\}$
+:::
+:::
+
+```{r,message=FALSE,echo=TRUE}
+#| out-width: "100%"
+
+d <- stats::dist(X) # compute the Euclidean distances between points
+
+treeC <- hclust(d, method="complete")
+
+treeC$height
+
+ggdendrogram(treeC, rotate = FALSE, size = 2)+
+  scale_y_continuous(breaks = seq(0,10.5,by=1.5))+
+  labs(title = "Maximal link's HAC")
+
+cutree(treeC, k=2 )
+
+```
+
+#### Construct the dendrogram by Ward's link
+
+- **Step 1:**
+
+::: columns
+::: {.column width="40%"}
+$d(A,B)$ = `r d_ab`
+
+$d(A,C)$ = `r d_ac`
+
+$d(A,D)$ = `r d_ad`
+
+$d(B,C)$ = `r d_bc`
+
+$d(B,D)$ = `r d_bd`
+
+$d(C,D)$ = `r d_cd`
+:::
+
+::: {.column width="40%"}
+|       | A        | B        | C        | D   |
+|-------|----------|----------|----------|-----|
+| **A** | 0        |          |          |     |
+| **B** | `r d_ab` | 0        |          |     |
+| **C** | `r d_ac` | `r d_bc` | 0        |     |
+| **D** | `r d_ad` | `r d_bd` | `r d_cd` | 0   |
+:::
+:::
+
+=\> $\mathcal{P}^{\{1\}} = \{\{A,B\},\{C,D\}\}$
+
+-   **Step 2:**
+
+Ward's link:
+
+$$
+D(C_k,C_{k'}) = \frac {|C_k||C_{k'}|}{|C_k|+|C_{k'}|}d(\mu_k,\mu_{k'})^2
+$$
+
+```{=tex}
+\begin{cases} 
+\mu_1 = \frac{A+B}{2} = (4.5,4.5)\\
+
+\mu_2 = \frac{C+D}{2} = (0.5,-2.5)
+\end{cases}
+```
+
+```{=tex}
+\begin{align}
+
+D(C_k,C_{k'}) &= \frac {|C_k||C_{k'}|}{|C_k|+|C_{k'}|}d(\mu_k,\mu_{k'})^2 \\
+
+&= \frac{2 \times 2}{2+2}d(\mu_k,\mu_{k'})^2 \\ 
+
+&= (4.5-0.5)^2 + ((4.5+2.5)^2) \\
+
+&= 4^2 + 7^2 \\
+
+&= 65
+
+\end{align}
+```
+```{r,echo=TRUE}
+
+treeW <- hclust(d, method="ward.D2")
+
+treeW$height
+
+ggdendrogram(treeW, rotate = FALSE, size = 2)+
+  labs(title = "Ward's HAC")
+
+```
+
+
+### Example 2
+
+```{r}
+#| echo: true
+#| message: false 
+#| code-fold: false
+
+library(ggplot2)
+library(cluster)
+library(dendextend)
+library(factoextra)
+library(ggdendro)
+```
+
+#### **Step 1: Data preparation**{.unnumbered}
+
+```{r}
+#| echo: true
+#| message: false 
+#| code-fold: false
+
+set.seed(123)
+data <- data.frame(
+  x = c(rnorm(50, mean = 2, sd = 0.5), rnorm(50, mean = 5, sd = 0.5)),
+  y = c(rnorm(50, mean = 3, sd = 0.5), rnorm(50, mean = 6, sd = 0.5))
+  )
+
+ggplot(data, aes(x = x, y = y)) +
+  geom_point(color = 'blue') +
+  theme_minimal() +
+  ggtitle("Initial data")
+
+```
+
+#### **Step 2: HAC**{.unnumbered}
+
+**Computation of the distance matrix**
+
+```{r}
+#| echo: true
+#| message: false 
+#| code-fold: false
+
+distance_matrix <- dist(data, method = "euclidean")
+
+```
+
+**Hierarchical ascending classification**
+
+```{r}
+#| echo: true
+#| message: false 
+#| code-fold: false
+
+cah <- hclust(distance_matrix, method = "ward.D2")
+
+# Conversion into format ggplot2
+dendro_data <- ggdendro::dendro_data(cah)
+
+# Extraction of the labels of the leaves
+label_data <- dendro_data$labels
+
+# Display of the basic dendogram with ggplot2
+ggplot() +
+  geom_segment(data = dendro_data$segments, aes(x = x, y = y, xend = xend, yend = yend)) +
+  geom_text(data = label_data, aes(x = x, y = y, label = label),
+            hjust = 2, angle = 90, size = 2) +
+  labs(title = "HAC dendrogram", x = "", y = "Height") +
+  theme_minimal() +
+  theme(axis.text.x = element_blank(), axis.ticks.x = element_blank(), panel.grid = element_blank())
+```
+
+#### **Step 3: Visualization of the results with ggplot2**{.unnumbered}
+
+```{r}
+#| echo: true
+#| message: false 
+#| code-fold: false
+
+# Cutting in clusters
+
+k <- 2 # Number of desired clusters
+clusters <- cutree(cah, k = k)
+
+data$cluster <- as.factor(clusters)
+
+# clusters visualization
+ggplot(data, aes(x = x, y = y, color = cluster)) +
+geom_point(size = 3) +
+theme_minimal() +
+ggtitle(paste("Classification in", k, "clusters"))
+```
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,11 @@
+# Mathematic Review {.unnumbered}
+
+## 2 points distance
+
+## Covariance matrix
+
+## Multivariables Normal distribution
+
+## Transpose matrix
+
+## Bayesian

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Statistics and Machine Learning - 3&nbsp; Discriminant analysis</title>
+<title>Statistics and Machine Learning - 4&nbsp; Discriminant analysis</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -30,7 +64,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./references.html" rel="next">
+<link href="./unsup.html" rel="next">
 <link href="./knn.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -62,6 +96,8 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 </head>
 
@@ -74,7 +110,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./intro_classification.html">Classification</a></li><li class="breadcrumb-item"><a href="./lda_qda.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Discriminant analysis</span></a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./intro_classification.html">Classification</a></li><li class="breadcrumb-item"><a href="./lda_qda.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Discriminant analysis</span></a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -111,6 +147,12 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text">Introduction</span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./review.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Mathematic Review</span></a>
+  </div>
+</li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a href="./intro_classification.html" class="sidebar-item-text sidebar-link">
@@ -128,14 +170,49 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./validation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Learning, validation, testing</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./knn.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">k-nearest neighbors (KNN)</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">k-nearest neighbors (kNN)</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./lda_qda.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Discriminant analysis</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Discriminant analysis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./unsup.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Unsupervised classification</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./had.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Hierachical ascending classification</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./ml_theory.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Machine Learning theory</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./lin_reg.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Linear regression</span></span></a>
   </div>
 </li>
       </ul>
@@ -152,14 +229,28 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="3">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#principle" id="toc-principle" class="nav-link active" data-scroll-target="#principle"><span class="header-section-number">4.1</span> Principle</a></li>
+  <li><a href="#linear-discriminant-analysis-lda" id="toc-linear-discriminant-analysis-lda" class="nav-link" data-scroll-target="#linear-discriminant-analysis-lda"><span class="header-section-number">4.2</span> Linear Discriminant analysis (LDA)</a></li>
+  <li><a href="#quadratic-discriminant-analysis-qda" id="toc-quadratic-discriminant-analysis-qda" class="nav-link" data-scroll-target="#quadratic-discriminant-analysis-qda"><span class="header-section-number">4.3</span> Quadratic Discriminant analysis (QDA)</a></li>
+  <li><a href="#limitations" id="toc-limitations" class="nav-link" data-scroll-target="#limitations"><span class="header-section-number">4.4</span> Limitations</a></li>
+  <li><a href="#practical" id="toc-practical" class="nav-link" data-scroll-target="#practical"><span class="header-section-number">4.5</span> Practical</a>
+  <ul class="collapse">
+  <li><a href="#quadratic-discriminant-analysis-by-hand" id="toc-quadratic-discriminant-analysis-by-hand" class="nav-link" data-scroll-target="#quadratic-discriminant-analysis-by-hand"><span class="header-section-number">4.5.1</span> Quadratic Discriminant Analysis by Hand</a></li>
+  <li><a href="#quadratic-discriminant-analysis-with-caret" id="toc-quadratic-discriminant-analysis-with-caret" class="nav-link" data-scroll-target="#quadratic-discriminant-analysis-with-caret"><span class="header-section-number">4.5.2</span> Quadratic Discriminant Analysis with caret</a></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Discriminant analysis</span></h1>
+<h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Discriminant analysis</span></h1>
 </div>
 
 
@@ -174,8 +265,380 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
+<p><span style="color:blue">Discriminant factor analysis</span> (DA) or simply <span style="color:blue">discriminant analysis</span> is a statistical technique that aims to:</p>
+<ul>
+<li><p>describe</p></li>
+<li><p>explain</p></li>
+<li><p>predict</p></li>
+</ul>
+<p>the membership to predefined groups (classes, modalities of the variable to be predicted…) of a set of observations (individuals, examples…) from a series of predictive variables (descriptors, exogenous variables…).</p>
+<p>In <span style="color:blue">medicine</span>, to detect high-risk cardiac groups based on characteristics such as diet, smoking or not, family history, …</p>
+<p>Discriminant analysis can be a descriptive technique:</p>
+<ul>
+<li>The objective is to propose a <span style="color:blue">new representation system, latent variables</span> formed from linear combinations of predictive variables, which make it possible to discern groups of individuals as much as possible.</li>
+</ul>
+<p>Discriminant analysis can be a predictive technique:</p>
+<ul>
+<li>It involves building a <span style="color:blue">classification function (assignment rule)</span> that predicts the group to which an individual belongs based on the values taken by the predictive variables.</li>
+</ul>
+<section id="principle" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="principle"><span class="header-section-number">4.1</span> Principle</h2>
+<p>We have a sample of <span class="math inline">\(n\)</span> observations distributed in <span class="math inline">\(K\)</span> groups of sizes <span class="math inline">\(n_k\)</span>. The number of classes <span class="math inline">\(K\)</span> is fixed in advance.</p>
+<span class="math display">\[\begin{aligned}
+X_n =
+\begin{bmatrix}
+    x_{11} &amp; x_{12} &amp; x_{13} &amp; \dots  &amp; x_{1p} \\
+    x_{21} &amp; x_{22} &amp; x_{23} &amp; \dots  &amp; x_{2p} \\
+    \vdots &amp; \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+    x_{n1} &amp; x_{n2} &amp; x_{n3} &amp; \dots  &amp; x_{np}
+\end{bmatrix}
+
+\quad
+,
+\quad
+
+Y_n =
+\begin{bmatrix}
+    y_{1} \\
+    y_{2} \\
+    \vdots \\
+    y_{n}
+\end{bmatrix}\\
+
+y \in \{1,...,K\}
+
+\end{aligned}\]</span>
+<p>In discriminant analysis, we assume that the <span style="color:blue">conditional distribution of X to class Y</span> is <strong>parametric</strong> and <strong>Gaussian</strong> <span class="math inline">\((X|Y = k \sim \mathcal{N}(\mu_{K},\Sigma_{K}))\)</span></p>
+<p>Where:</p>
+<ul>
+<li><p><span class="math inline">\(\mu_{k}\)</span>: the centers of gravity of the conditional point clouds</p></li>
+<li><p><span class="math inline">\(\Sigma_k\)</span>: their variance-covariance matrix</p></li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Then the <strong>probability density function</strong> (PDF) is:</p>
+<span class="math display">\[\begin{aligned}
+
+f(x|Y=k) = \frac{1}{(2 \pi)^\frac{p}{2}|\Sigma_{k}|^{\frac{1}{2}}}exp\{ -\frac{1}{2}(x-\mu_k)^\intercal \sum\nolimits_{k}^{-1}(x-\mu_k)\}
+
+\end{aligned}\]</span>
+</div>
+</div>
+<div class="quarto-layout-panel">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="fig/classification/lda.png" class="img-fluid figure-img" width="500"></p>
+<figcaption class="figure-caption">Linear discriminant analysis</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="fig/classification/qda.png" class="img-fluid figure-img" width="500"></p>
+<figcaption class="figure-caption">Quadratic discriminant analysis</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<p>In training step, we want to find the classification rule <span class="math inline">\(g(x)\)</span> that maximize the <span class="math inline">\(\mathbb{P}(Y = k | X = x)\)</span>. The Bayesian rule write as:</p>
+<span class="math display">\[\begin{aligned}
+
+g(x) &amp;= \mathbb{P}(Y = k | X = x) \\
+     
+     &amp;= f(x|Y=k) \mathbb{P}(Y=k)\\
+     
+     &amp;= log(f(x|Y=k)) + log(\pi_{k})\\
+
+\end{aligned}\]</span>
+<p>Maximum likelihood estimators</p>
+<span class="math display">\[\begin{aligned}
+
+\widehat{\pi} &amp;= \frac{n_k}{n} &amp;  \widehat{\mu_k} = \frac{1}{n_k}\sum_{i;y_i = k }^{}x_i\\
+     
+    \widehat{\Sigma_k} &amp;= \frac{1}{n_k}\sum_{i;y_i = k }^{}(x_i-\widehat{\mu_k})^\intercal (x_i-\widehat{\mu_k})\\
+
+\end{aligned}\]</span>
+</section>
+<section id="linear-discriminant-analysis-lda" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="linear-discriminant-analysis-lda"><span class="header-section-number">4.2</span> Linear Discriminant analysis (LDA)</h2>
+<p>We assume that K clusters have the same <span class="math inline">\(\Sigma\)</span>, <span class="math inline">\(\Sigma_k = \Sigma\)</span> for k = 1,··· ,K. Now the likelihood is</p>
+<span class="math display">\[\begin{aligned}
+
+f(x|Y=k) = \frac{1}{(2 \pi)^\frac{p}{2}|\Sigma|^{\frac{1}{2}}}exp\{ -\frac{1}{2}(x-\mu_k)^\intercal \sum\nolimits_{}^{-1}(x-\mu_k)\}
+
+\end{aligned}\]</span>
+<p>take the log</p>
+<span class="math display">\[\begin{aligned}
+
+log(f(x|Y=k)) &amp;= \underbrace{- \frac{\pi}{2} log(2 \pi) - \frac{1}{2}log|\Sigma|} - \frac{1}{2}(x-\mu_k)^\intercal \sum\nolimits_{}^{-1}(x-\mu_k) \\
+
+&amp;= independent\ on\ k \\
+
+&amp;= - \frac{1}{2}(x-\mu_k)^\intercal \sum\nolimits_{}^{-1}(x-\mu_k)  + constants \\
+
+&amp;= - \frac{1}{2}(x^\intercal \Sigma^{-1}x -2x^\intercal \Sigma^{-1}\mu_k+\mu^{\intercal}_k \sum\nolimits_{}^{-1}\mu_k) + constants \\
+
+&amp;=  \underbrace{-\frac{1}{2}x^\intercal \Sigma^{-1}x} + x^\intercal \Sigma^{-1}\mu_k -\frac{1}{2} \mu^{\intercal}_k \sum\nolimits_{}^{-1}\mu_k + constants \\
+
+&amp;= same\ for\ all\ k
+
+\end{aligned}\]</span>
+<p>We want to maximize <span class="math inline">\(g(x) = \mathbb{P}(Y = k | X = x) = log(f(x|Y=k)) + log(\pi_{k})\)</span>. So <span class="math inline">\(L_{k}(x)= x^\intercal \Sigma^{-1}\mu_k -\frac{1}{2} \mu^{\intercal}_k \sum\nolimits_{}^{-1}\mu_k + log(\pi_{k})\)</span> is called <span style="color:blue">linear discriminant function</span>.</p>
+<p>The posterior probabilities of the classes are calculated as follows:</p>
+<span class="math display">\[\begin{aligned}
+
+\mathbb{P}(Y = k | X = x) = \frac{exp(L_k(x))}{\sum_{\ell=1}^{k}exp(L_\ell(x))}
+
+\end{aligned}\]</span>
+</section>
+<section id="quadratic-discriminant-analysis-qda" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="quadratic-discriminant-analysis-qda"><span class="header-section-number">4.3</span> Quadratic Discriminant analysis (QDA)</h2>
+<p>We no longer assume that K clusters have the same <span class="math inline">\(\Sigma\)</span>, <span class="math inline">\(\Sigma_k = \Sigma\)</span> for k = 1,··· ,K. Take the log likelihood of PDF of multivariate Gaussian distribution</p>
+<span class="math display">\[\begin{aligned}
+
+log(f(x|Y=k)) &amp;= \underbrace{- \frac{\pi}{2} log(2 \pi)} - \frac{1}{2}log|\Sigma_k|^{-1} - \frac{1}{2}(x-\mu_k)^\intercal \sum\nolimits_{k}^{-1}(x-\mu_k) \\
+
+&amp;= independent\ on\ k \\
+
+&amp;= - \frac{1}{2}log|\Sigma_k|^{-1} - \frac{1}{2}(x-\mu_k)^\intercal \sum\nolimits_{k}^{-1}(x-\mu_k)  + constants \\
+
+\end{aligned}\]</span>
+<p>We want to maximize <span class="math inline">\(g(x) = \mathbb{P}(Y = k | X = x) = log(f(x|Y=k)) + log(\pi_{k})\)</span>. So <span class="math inline">\(L_{k}(x)= - \frac{1}{2}log|\Sigma_k|^{-1} - \frac{1}{2}(x-\mu_k)^\intercal \sum\nolimits_{k}^{-1}(x-\mu_k) + log(\pi_{k})\)</span> is called <span style="color:blue">quadratic discriminant function</span>.</p>
+<p>The posterior probabilities of the classes are calculated as follows:</p>
+<span class="math display">\[\begin{aligned}
+
+\mathbb{P}(Y = k | X = x) = \frac{exp(Q_k(x))}{\sum_{\ell=1}^{k}exp(Q_\ell(x))}
+
+\end{aligned}\]</span>
+</section>
+<section id="limitations" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="limitations"><span class="header-section-number">4.4</span> Limitations</h2>
+<ul>
+<li><p>LDA and QDA rely on statistical assumptions (normality of data and homogeneity of covariance matrices for LDA). These assumptions can be partially or totally violated in real datasets.</p></li>
+<li><p>Even if LDA or QDA are considered relatively simple models, they can overfit on complex or noisy datasets.</p></li>
+</ul>
+</section>
+<section id="practical" class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="practical"><span class="header-section-number">4.5</span> Practical</h2>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(caret)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MASS)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>train <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="at">file=</span><span class="st">"./data/synth_train.txt"</span>, <span class="at">header=</span><span class="cn">TRUE</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(train)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>  y          x1        x2
+1 2 -0.72221141 2.0044709
+2 2 -0.92467912 0.4836693
+3 2 -0.76602281 0.7943289
+4 2 -0.07328948 0.9699291
+5 1 -1.39291198 0.9996971
+6 2 -0.20223339 1.3503319</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>train<span class="sc">$</span>y <span class="ot">&lt;-</span> <span class="fu">factor</span>(train<span class="sc">$</span>y)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>train_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">X1 =</span> train<span class="sc">$</span>x1, <span class="at">X2 =</span> train<span class="sc">$</span>x2, <span class="at">Class =</span> <span class="fu">factor</span>(train<span class="sc">$</span>y))</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(train_data, </span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> X1, <span class="at">y =</span> X2, <span class="at">shape =</span> Class, <span class="at">color =</span> Class)) <span class="sc">+</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"red"</span>, <span class="st">"blue"</span>), <span class="at">name =</span> <span class="st">"Class"</span>) <span class="sc">+</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="fu">scale_shape_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="dv">16</span>, <span class="dv">17</span>), <span class="at">name =</span> <span class="st">"Class"</span>) <span class="sc">+</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Visualization of classes"</span>, <span class="at">x =</span> <span class="st">"X1"</span>, <span class="at">y =</span> <span class="st">"X2"</span>) <span class="sc">+</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"top"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="lda_qda_files/figure-html/unnamed-chunk-2-1.svg" style="width:100.0%;height:100.0%"></p>
+</div>
+</div>
+<section id="quadratic-discriminant-analysis-by-hand" class="level3" data-number="4.5.1">
+<h3 data-number="4.5.1" class="anchored" data-anchor-id="quadratic-discriminant-analysis-by-hand"><span class="header-section-number">4.5.1</span> Quadratic Discriminant Analysis by Hand</h3>
+<p>Maximum likelihood estimators</p>
+<p><span class="math display">\[
+\widehat \pi_k = \frac{n_k}{n}, \qquad
+\widehat \mu_k = \frac{1}{n_k} \sum_{i; y_i=k} x_i,\qquad  \widehat \Sigma_k=\frac{1}{n_k} \sum_{i; y_i=k}(x_i-\widehat \mu_k)^\top (x_i-\widehat \mu_k).
+\]</span> We will estimate these parameters on these parameters on the training data.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">nrow</span>(train_data)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># class 1</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>ind1 <span class="ot">&lt;-</span> <span class="fu">which</span>(train_data<span class="sc">$</span>Class<span class="sc">==</span><span class="dv">1</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>n1 <span class="ot">&lt;-</span> <span class="fu">length</span>(ind1)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>pi1 <span class="ot">&lt;-</span> n1<span class="sc">/</span>n</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>mu1 <span class="ot">&lt;-</span> <span class="fu">colMeans</span>(train_data[ind1,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>])</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>sigma1 <span class="ot">&lt;-</span> <span class="fu">var</span>(train_data[ind1,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>])<span class="sc">*</span>(n1<span class="dv">-1</span>)<span class="sc">/</span>n1</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co"># class 2</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>ind2 <span class="ot">&lt;-</span> <span class="fu">which</span>(train_data<span class="sc">$</span>Class<span class="sc">==</span><span class="dv">2</span>)</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>n2 <span class="ot">&lt;-</span> <span class="fu">length</span>(ind2)</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>pi2 <span class="ot">&lt;-</span> n2<span class="sc">/</span>n</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>mu2 <span class="ot">&lt;-</span> <span class="fu">colMeans</span>(train_data[ind2,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>])</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>sigma2 <span class="ot">&lt;-</span> <span class="fu">var</span>(train_data[ind2,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>])<span class="sc">*</span>(n2<span class="dv">-1</span>)<span class="sc">/</span>n2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We had the <strong>quadratic discriminant function</strong></p>
+<p><span class="math display">\[
+Q_k(x)=-\frac 12 \log |\Sigma_k|^{-1} - \frac 12 (x-\mu_k)^\top \Sigma_k^{-1}(x-\mu_k)+\log \pi_k.
+\]</span></p>
+<p>We have the new data <span class="math inline">\(x = (-1,1)\)</span>, then we calculate <span class="math inline">\(Q_1(x)\)</span> and <span class="math inline">\(Q_2(x)\)</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>,<span class="dv">1</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(x) <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"x1"</span>,<span class="st">"x2"</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>Q1 <span class="ot">&lt;-</span> <span class="sc">-</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">2</span><span class="sc">*</span><span class="fu">log</span>(<span class="fu">det</span>(sigma1))<span class="sc">-</span><span class="dv">1</span><span class="sc">/</span><span class="dv">2</span><span class="sc">*</span><span class="fu">t</span>(x<span class="sc">-</span>mu1) <span class="sc">%*%</span> <span class="fu">solve</span>(sigma1) <span class="sc">%*%</span> (x<span class="sc">-</span>mu1) <span class="sc">+</span><span class="fu">log</span>(pi1)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>Q2 <span class="ot">&lt;-</span> <span class="sc">-</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">2</span><span class="sc">*</span><span class="fu">log</span>(<span class="fu">det</span>(sigma2)) <span class="sc">-</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">2</span><span class="sc">*</span><span class="fu">t</span>(x<span class="sc">-</span>mu2) <span class="sc">%*%</span> <span class="fu">solve</span>(sigma2) <span class="sc">%*%</span> (x<span class="sc">-</span>mu2) <span class="sc">+</span><span class="fu">log</span>(pi2)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>Q1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          [,1]
+[1,] -1.940979</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>Q2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>           [,1]
+[1,] -0.9362387</code></pre>
+</div>
+</div>
+<p>We also know that the posterior probabilities of the classes are calculated as follows:</p>
+<p><span class="math display">\[
+\mathbb{P}(Y=k\vert X=x)= \frac{\exp (Q_k(x))}{\sum_{\ell=1}^2 \exp (Q_\ell(x))}.
+\]</span></p>
+<p>Estimate the posterior probabilities for <span class="math inline">\(x = (-1, 1)\)</span>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>prob1 <span class="ot">&lt;-</span> <span class="fu">exp</span>(Q1)<span class="sc">/</span>(<span class="fu">exp</span>(Q1)<span class="sc">+</span><span class="fu">exp</span>(Q2))</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>prob1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          [,1]
+[1,] 0.2680105</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>prob2 <span class="ot">&lt;-</span> <span class="fu">exp</span>(Q2)<span class="sc">/</span>(<span class="fu">exp</span>(Q1)<span class="sc">+</span><span class="fu">exp</span>(Q2))</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>prob2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          [,1]
+[1,] 0.7319895</code></pre>
+</div>
+</div>
+<p><span class="math inline">\(\mathbb{P}(Y=2/X=(-1,1)) &gt; \mathbb{P}(Y=1/X=(-1,1))\)</span> so we predict class 2 for <span class="math inline">\(x=(-1,1)\)</span>.</p>
+</section>
+<section id="quadratic-discriminant-analysis-with-caret" class="level3" data-number="4.5.2">
+<h3 data-number="4.5.2" class="anchored" data-anchor-id="quadratic-discriminant-analysis-with-caret"><span class="header-section-number">4.5.2</span> Quadratic Discriminant Analysis with caret</h3>
+<p>Now use the functions <strong>qda</strong> and <strong>predict</strong> to predict the class of the point <span class="math inline">\(x=(-1,1)\)</span> and estimate their posterior probabilities. Check that you find the results obtained previously.</p>
+<p>Training the model on the train data</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>qda_model <span class="ot">&lt;-</span> <span class="fu">train</span>(Class <span class="sc">~</span> ., </span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>                   <span class="at">data =</span> train_data, </span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>                   <span class="at">method =</span> <span class="st">"qda"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Prediction of the point <span class="math inline">\(x = (-1,1)\)</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>X1 <span class="ot">=</span> <span class="sc">-</span><span class="dv">1</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>X2 <span class="ot">=</span> <span class="dv">1</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">c</span>(X1,X2)</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">predict</span>(qda_model, x, <span class="st">"raw"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2
+Levels: 1 2</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">predict</span>(qda_model, x, <span class="st">"prob"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          1         2
+1 0.2679847 0.7320153</code></pre>
+</div>
+</div>
+<p>Splitting the dataset into training and testing samples</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1223</span>)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>train_index <span class="ot">&lt;-</span> <span class="fu">createDataPartition</span>(train<span class="sc">$</span>y, <span class="at">p =</span> <span class="fl">0.7</span>, <span class="at">list =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>train_data <span class="ot">&lt;-</span> train[train_index, ]</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>test_data <span class="ot">&lt;-</span> train[<span class="sc">-</span>train_index, ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Training the model on the training data</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>qda_model <span class="ot">&lt;-</span> <span class="fu">train</span>(y <span class="sc">~</span> ., </span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>                   <span class="at">data =</span> train_data, </span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>                   <span class="at">method =</span> <span class="st">"qda"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Predictions on the test dataset</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>qda_pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(qda_model, test_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Model Evaluation - Performance Analysis on test dataset</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>qda_conf_mat <span class="ot">&lt;-</span> <span class="fu">confusionMatrix</span>(qda_pred, test_data<span class="sc">$</span>y)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(qda_conf_mat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Confusion Matrix and Statistics
+
+          Reference
+Prediction  1  2
+         1  6  1
+         2  0 22
+                                          
+               Accuracy : 0.9655          
+                 95% CI : (0.8224, 0.9991)
+    No Information Rate : 0.7931          
+    P-Value [Acc &gt; NIR] : 0.01031         
+                                          
+                  Kappa : 0.901           
+                                          
+ Mcnemar's Test P-Value : 1.00000         
+                                          
+            Sensitivity : 1.0000          
+            Specificity : 0.9565          
+         Pos Pred Value : 0.8571          
+         Neg Pred Value : 1.0000          
+             Prevalence : 0.2069          
+         Detection Rate : 0.2069          
+   Detection Prevalence : 0.2414          
+      Balanced Accuracy : 0.9783          
+                                          
+       'Positive' Class : 1               
+                                          </code></pre>
+</div>
+</div>
+<p>Visualizing the decision boundaries</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>grid <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">x1 =</span> <span class="fu">seq</span>(<span class="fu">min</span>(test_data<span class="sc">$</span>x1), <span class="fu">max</span>(test_data<span class="sc">$</span>x1), </span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>                             <span class="at">length.out =</span> <span class="dv">100</span>),</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">x2 =</span> <span class="fu">seq</span>(<span class="fu">min</span>(test_data<span class="sc">$</span>x2), <span class="fu">max</span>(test_data<span class="sc">$</span>x2), </span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>                             <span class="at">length.out =</span> <span class="dv">100</span>))</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Decision boundary for QDA</span></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>grid<span class="sc">$</span>pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(qda_model, <span class="at">newdata =</span> grid)</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">data =</span> test_data, <span class="fu">aes</span>(<span class="at">x =</span> x1, <span class="at">y =</span> x2, <span class="at">color =</span> y), <span class="at">size =</span> <span class="dv">3</span>)<span class="sc">+</span></span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_tile</span>(<span class="at">data =</span> grid, <span class="fu">aes</span>(<span class="at">x =</span> x1, <span class="at">y =</span> x2, <span class="at">fill =</span> pred), <span class="at">alpha =</span> <span class="fl">0.3</span>) <span class="sc">+</span></span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Decision boundary - QDA"</span>, <span class="at">x =</span> <span class="st">"Variable 1"</span>, <span class="at">y =</span> <span class="st">"Variable 2"</span>) <span class="sc">+</span></span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="lda_qda_files/figure-html/unnamed-chunk-12-1.svg" style="width:100.0%;height:100.0%"></p>
+</div>
+</div>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -414,12 +877,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="./knn.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">k-nearest neighbors (KNN)</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">k-nearest neighbors (kNN)</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./references.html" class="pagination-link">
-        <span class="nav-page-text">References</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./unsup.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Unsupervised classification</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

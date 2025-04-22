@@ -1,14 +1,23 @@
 # Preface {.unnumbered}
 
-The content of this book is based on the materials of the [Spring School on Statistic and Machine Learning](https://viasm.edu.vn/hdkh/spring-school-on-saml), which was held by the Vietnam Institute for Advanced Study in Mathematics.
+The content of this book is based on the materials of the [Spring School on Statistic and Machine Learning](https://viasm.edu.vn/hdkh/spring-school-on-saml), which was held by the Vietnam Institute for Advanced Study in Mathematics (VIASM) and VNU-HCM University of Science (HCMUS).
 
-![](fig/poster.png){width=500}
+:::: {.columns}
 
-# Materials:
+::: {.column width="40%"}
 
-- Day 1:
-  
-  - [Classification](https://perso.math.univ-toulouse.fr/lagnoux/enseignements/)
-  
-  - [Computational Statistics](https://plmlab.math.cnrs.fr/chevallier-teaching/hcmus-springschool-computationalstatistics)
+# Materials
 
+[Classification](https://perso.math.univ-toulouse.fr/lagnoux/enseignements/)
+
+[Computational Statistics](https://plmlab.math.cnrs.fr/chevallier-teaching/hcmus-springschool-computationalstatistics)
+
+:::
+
+::: {.column width="60%"}
+
+![](fig/poster.png)
+
+:::
+
+::::

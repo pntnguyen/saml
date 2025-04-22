@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Statistics and Machine Learning - 2&nbsp; k-nearest neighbors (KNN)</title>
+<title>Statistics and Machine Learning - 3&nbsp; k-nearest neighbors (kNN)</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -31,7 +65,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
 <link href="./lda_qda.html" rel="next">
-<link href="./pred_per.html" rel="prev">
+<link href="./validation.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -62,6 +96,8 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 </head>
 
@@ -74,7 +110,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./intro_classification.html">Classification</a></li><li class="breadcrumb-item"><a href="./knn.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">k-nearest neighbors (KNN)</span></a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./intro_classification.html">Classification</a></li><li class="breadcrumb-item"><a href="./knn.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">k-nearest neighbors (kNN)</span></a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -111,6 +147,12 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text">Introduction</span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./review.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Mathematic Review</span></a>
+  </div>
+</li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a href="./intro_classification.html" class="sidebar-item-text sidebar-link">
@@ -128,14 +170,49 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./validation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Learning, validation, testing</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./knn.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">k-nearest neighbors (KNN)</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">k-nearest neighbors (kNN)</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./lda_qda.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Discriminant analysis</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Discriminant analysis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./unsup.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Unsupervised classification</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./had.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Hierachical ascending classification</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./ml_theory.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Machine Learning theory</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./lin_reg.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Linear regression</span></span></a>
   </div>
 </li>
       </ul>
@@ -152,14 +229,27 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="3">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#principle" id="toc-principle" class="nav-link active" data-scroll-target="#principle"><span class="header-section-number">3.1</span> Principle</a></li>
+  <li><a href="#applications" id="toc-applications" class="nav-link" data-scroll-target="#applications"><span class="header-section-number">3.2</span> Applications</a></li>
+  <li><a href="#limitations" id="toc-limitations" class="nav-link" data-scroll-target="#limitations"><span class="header-section-number">3.3</span> Limitations</a></li>
+  <li><a href="#practical" id="toc-practical" class="nav-link" data-scroll-target="#practical"><span class="header-section-number">3.4</span> Practical</a>
+  <ul class="collapse">
+  <li><a href="#example-1" id="toc-example-1" class="nav-link" data-scroll-target="#example-1"><span class="header-section-number">3.4.1</span> Example 1</a></li>
+  <li><a href="#example-2" id="toc-example-2" class="nav-link" data-scroll-target="#example-2"><span class="header-section-number">3.4.2</span> Example 2</a></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">k-nearest neighbors (KNN)</span></h1>
+<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">k-nearest neighbors (kNN)</span></h1>
 </div>
 
 
@@ -174,8 +264,611 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
+<p>The k-nearest neighbors algorithm or k-NN, like linear regression, is a supervised learning algorithm, so we have the set of <span class="math inline">\((x_i,y_i) i=1,···,n\)</span> labeled data.</p>
+<ul>
+<li><p>This is a <span style="color:blue">non-parametric model</span> (unlike regression), i.e.&nbsp;the model has no parameters whose value must be optimized. (k is not a parameter but a <span style="color:blue">hyperparameter</span>).</p></li>
+<li><p>In the case of a <span style="color:blue">classification algorithm</span>, the outputs <span class="math inline">\(y_i\)</span> correspond to the possible classes(and not continuous values, as in regression). The input <span class="math inline">\(x_i\)</span> is a vector of dimension <span class="math inline">\(p\)</span>, containing the different variables associated with an input, an individual.</p></li>
+</ul>
+<section id="principle" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="principle"><span class="header-section-number">3.1</span> Principle</h2>
+<ol type="1">
+<li>For each new input <span class="math inline">\(x_0\)</span>, we measure the distance between <span class="math inline">\(x_0\)</span> and the inputs <span class="math inline">\(x_i\)</span> for all <span class="math inline">\(i\)</span> in <span class="math inline">\({1,··· ,n}\)</span>.</li>
+</ol>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Different distance measures (Euclidean, Manhattan…) can be used for this algorithm, depending on the problem studied.</p>
+<span class="math display">\[\begin{align}
+
+A(x_A,y_A,z_A)\:
+
+B(x_B,y_B,z_B)\\
+
+d_{Euclidean}(A,B) &amp;=  \sqrt{(x_B - x_A)^2 + (y_B - y_A)^2 + (z_B - z_A)^2} \\
+
+d_{Manhattan}(A,B) &amp;=  |x_{B} - x_A| + |y_B - y_A| + |z_B - z_A|
+
+\end{align}\]</span>
+</div>
+</div>
+<ol start="2" type="1">
+<li><p>We then select the <span class="math inline">\(k\)</span> elements closest to the input.</p></li>
+<li><p>The class predicted by the algorithm then corresponds to the <em>majority class</em>, i.e.&nbsp;the most frequent class in the k-NNs selected.</p></li>
+</ol>
+</section>
+<section id="applications" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="applications"><span class="header-section-number">3.2</span> Applications</h2>
+<ul>
+<li><p>The k-NN algorithm is frequently used in both classification and regression.</p></li>
+<li><p>It can also be used in shape recognition, with inputs containing the circumference, area or contour signature of the shape, and outputs corresponding to the various possible shapes.</p></li>
+</ul>
+</section>
+<section id="limitations" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="limitations"><span class="header-section-number">3.3</span> Limitations</h2>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The value of k has a strong influence on prediction !</p>
+</div>
+</div>
+<ul>
+<li><p><span style="color:blue">k too small</span>: elements out of the ordinary will more easily influence the prediction. =&gt; This is the <span style="color:blue">overfitting</span> problem.</p></li>
+<li><p><span style="color:blue">k too large</span>: the model will take into account data that are too far apart, and the majority class will be predicted too often. =&gt; This is the <span style="color:blue">underfitting</span> problem.</p></li>
+</ul>
+<p>When studying higher-dimensional problems, it is therefore essential to have a <span style="color:blue">large amount of training data</span>. For this reason, the k-NN algorithm quickly becomes unusable : beyond 4 or 5 dimensions, the number of data required becomes too large.</p>
+</section>
+<section id="practical" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="practical"><span class="header-section-number">3.4</span> Practical</h2>
+<section id="example-1" class="level3" data-number="3.4.1">
+<h3 data-number="3.4.1" class="anchored" data-anchor-id="example-1"><span class="header-section-number">3.4.1</span> Example 1</h3>
+<p>We have a data of 10 points</p>
+<div class="columns">
+<div class="column" style="width:30%;">
+<table class="table">
+<thead>
+<tr class="header">
+<th>number</th>
+<th>x</th>
+<th>y</th>
+<th>z</th>
+<th>color</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>3</td>
+<td>7</td>
+<td>5</td>
+<td>black</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>4</td>
+<td>6</td>
+<td>2</td>
+<td>black</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>3</td>
+<td>7</td>
+<td>8</td>
+<td>white</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>0</td>
+<td>1</td>
+<td>2</td>
+<td>black</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>1</td>
+<td>0</td>
+<td>7</td>
+<td>white</td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td>5</td>
+<td>4</td>
+<td>4</td>
+<td>white</td>
+</tr>
+<tr class="odd">
+<td>7</td>
+<td>9</td>
+<td>1</td>
+<td>2</td>
+<td>black</td>
+</tr>
+<tr class="even">
+<td>8</td>
+<td>5</td>
+<td>3</td>
+<td>3</td>
+<td>black</td>
+</tr>
+<tr class="odd">
+<td>9</td>
+<td>1</td>
+<td>1</td>
+<td>4</td>
+<td>white</td>
+</tr>
+<tr class="even">
+<td>10</td>
+<td>2</td>
+<td>3</td>
+<td>7</td>
+<td>white</td>
+</tr>
+</tbody>
+</table>
+</div><div class="column" style="width:70%;">
+<p>We consider an eleventh point A with coordinates x = 4, y = 4 and z = 5</p>
+<p>The Euclidean distances between the point A(4,4,5) and the points in the table have been recorded in the following table:</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th>point</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>6</th>
+<th>7</th>
+<th>8</th>
+<th>9</th>
+<th>10</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>distance</td>
+<td>3.16</td>
+<td>3.60</td>
+<td>4.16</td>
+<td>5.83</td>
+<td>5.19</td>
+<td>1.41</td>
+<td>6.55</td>
+<td>2.45</td>
+<td>4.16</td>
+<td>3</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>We apply the k-nearest neighbors algorithm to predict the color at point A.</p>
+<ul>
+<li>If k = 1:</li>
+</ul>
+<p>The closet point from A is point number 6 =&gt; A is white</p>
+<ul>
+<li>If k = 3:</li>
+</ul>
+<p>The 3 closet points from A are number 6 (white), number 8 (black), number 10 (black) =&gt; A is black</p>
+<ul>
+<li>If k = 5:</li>
+</ul>
+<p>The 5 closet points from A are number 6 (white), number 8 (black), number 10 (black), number 1 (black), number 2 (black) =&gt; A is black</p>
+</section>
+<section id="example-2" class="level3" data-number="3.4.2">
+<h3 data-number="3.4.2" class="anchored" data-anchor-id="example-2"><span class="header-section-number">3.4.2</span> Example 2</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(caret)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MASS)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="data" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="data"><strong>Data</strong></h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>train <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="at">file=</span><span class="st">"./data/synth_train.txt"</span>, <span class="at">header=</span><span class="cn">TRUE</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(train)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  y          x1        x2
+1 2 -0.72221141 2.0044709
+2 2 -0.92467912 0.4836693
+3 2 -0.76602281 0.7943289
+4 2 -0.07328948 0.9699291
+5 1 -1.39291198 0.9996971
+6 2 -0.20223339 1.3503319</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>Xtrain <span class="ot">&lt;-</span> train[,<span class="sc">-</span><span class="dv">1</span>]</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>Ytrain <span class="ot">&lt;-</span> train<span class="sc">$</span>y</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>train<span class="sc">$</span>y <span class="ot">&lt;-</span> <span class="fu">factor</span>(train<span class="sc">$</span>y)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>train_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">X1 =</span> train<span class="sc">$</span>x1, <span class="at">X2 =</span> train<span class="sc">$</span>x2, <span class="at">Class =</span> <span class="fu">factor</span>(train<span class="sc">$</span>y))</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(train_data, </span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> X1, <span class="at">y =</span> X2, <span class="at">shape =</span> Class, <span class="at">color =</span> Class)) <span class="sc">+</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"#8785B2FF"</span>, <span class="st">"#DABD61FF"</span>), <span class="at">name =</span> <span class="st">"Class"</span>) <span class="sc">+</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="fu">scale_shape_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="dv">16</span>, <span class="dv">17</span>), <span class="at">name =</span> <span class="st">"Class"</span>) <span class="sc">+</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Visualization of classes"</span>, <span class="at">x =</span> <span class="st">"X1"</span>, <span class="at">y =</span> <span class="st">"X2"</span>) <span class="sc">+</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"top"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="knn_files/figure-html/unnamed-chunk-2-1.svg" style="width:100.0%;height:100.0%"></p>
+</div>
+</div>
+</section>
+<section id="train-model" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="train-model"><strong>Train model</strong></h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>model_15 <span class="ot">&lt;-</span> <span class="fu">train</span>(</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    y <span class="sc">~</span> .,</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> train, <span class="co"># Data</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">method =</span> <span class="st">"knn"</span>, <span class="co"># k-nn algorithm</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">tuneGrid =</span> <span class="fu">data.frame</span>(<span class="at">k =</span> <span class="dv">15</span>) <span class="co"># Number of neighbors</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="at">from=</span><span class="fu">min</span>(train<span class="sc">$</span>x1), <span class="at">to=</span><span class="fu">max</span>(train<span class="sc">$</span>x1), <span class="at">length.out=</span><span class="dv">100</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="at">from=</span><span class="fu">min</span>(train<span class="sc">$</span>x2), <span class="at">to=</span><span class="fu">max</span>(train<span class="sc">$</span>x2), <span class="at">length.out=</span><span class="dv">100</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>grille <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> a){</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>grille <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">rbind</span>(grille, <span class="fu">cbind</span>(i,b)))</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(grille) <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"x1"</span>,<span class="st">"x2"</span>)</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>train_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(Xtrain, <span class="at">Ytrain =</span> <span class="fu">factor</span>(Ytrain))</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>pred_grille <span class="ot">&lt;-</span> <span class="fu">predict</span>(model_15, grille, <span class="at">type =</span> <span class="st">"raw"</span>)</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>grid_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(grille, <span class="at">pred_grille =</span> <span class="fu">factor</span>(pred_grille))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> grid_data,</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>             <span class="fu">aes</span>(<span class="at">x =</span> grille[,<span class="dv">1</span>], <span class="at">y =</span> grille[,<span class="dv">2</span>], <span class="at">color =</span> pred_grille),</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">alpha =</span> <span class="fl">0.5</span>, <span class="at">size =</span> <span class="fl">0.5</span>)<span class="sc">+</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> train_data,</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>             <span class="fu">aes</span>(<span class="at">x =</span> x1, <span class="at">y =</span> x2, <span class="at">shape =</span> Ytrain, <span class="at">color =</span> Ytrain),<span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"#8785B2FF"</span>, <span class="st">"#DABD61FF"</span>), <span class="at">name =</span> <span class="st">"Class"</span>) <span class="sc">+</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_shape_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="dv">16</span>, <span class="dv">17</span>), <span class="at">name =</span> <span class="st">"Class"</span>) <span class="sc">+</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Decision frontier for k=15 neighbors"</span>, <span class="at">x =</span> <span class="st">"X1"</span>, <span class="at">y =</span> <span class="st">"X2"</span>) <span class="sc">+</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"topright"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="knn_files/figure-html/unnamed-chunk-5-1.svg" style="width:100.0%;height:100.0%"></p>
+</div>
+</div>
+</section>
+<section id="performance-test" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="performance-test"><strong>Performance test</strong></h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>predictions <span class="ot">=</span> <span class="fu">predict</span>(model_15, Xtrain ,<span class="at">type =</span> <span class="st">"raw"</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>CM_15 <span class="ot">=</span> <span class="fu">confusionMatrix</span>(predictions, train<span class="sc">$</span>y)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>CM_15</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Confusion Matrix and Statistics
+
+          Reference
+Prediction  1  2
+         1 15  1
+         2  7 77
+                                          
+               Accuracy : 0.92            
+                 95% CI : (0.8484, 0.9648)
+    No Information Rate : 0.78            
+    P-Value [Acc &gt; NIR] : 0.0001699       
+                                          
+                  Kappa : 0.7416          
+                                          
+ Mcnemar's Test P-Value : 0.0770999       
+                                          
+            Sensitivity : 0.6818          
+            Specificity : 0.9872          
+         Pos Pred Value : 0.9375          
+         Neg Pred Value : 0.9167          
+             Prevalence : 0.2200          
+         Detection Rate : 0.1500          
+   Detection Prevalence : 0.1600          
+      Balanced Accuracy : 0.8345          
+                                          
+       'Positive' Class : 1               
+                                          </code></pre>
+</div>
+</div>
+</section>
+<section id="validation" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="validation"><strong>Validation</strong></h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>valid <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="at">file=</span><span class="st">"./data/synth_valid.txt"</span>, <span class="at">header=</span><span class="cn">TRUE</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>valid<span class="sc">$</span>y <span class="ot">=</span> <span class="fu">as.factor</span>(valid<span class="sc">$</span>y)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(valid)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  y          x1        x2
+1 2  0.54837733 1.2213453
+2 2 -0.51618236 1.5623959
+3 2 -0.92877833 0.9210722
+4 2  0.07000405 0.6197675
+5 2  0.26702843 1.1094406
+6 2 -0.57664073 1.0257432</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>predictions <span class="ot">=</span> <span class="fu">predict</span>(model_15, valid ,<span class="at">type =</span> <span class="st">"raw"</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>CM_15 <span class="ot">=</span> <span class="fu">confusionMatrix</span>(predictions, valid<span class="sc">$</span>y)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>CM_15</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Confusion Matrix and Statistics
+
+          Reference
+Prediction  1  2
+         1 27  0
+         2 10 63
+                                         
+               Accuracy : 0.9            
+                 95% CI : (0.8238, 0.951)
+    No Information Rate : 0.63           
+    P-Value [Acc &gt; NIR] : 8.883e-10      
+                                         
+                  Kappa : 0.7728         
+                                         
+ Mcnemar's Test P-Value : 0.004427       
+                                         
+            Sensitivity : 0.7297         
+            Specificity : 1.0000         
+         Pos Pred Value : 1.0000         
+         Neg Pred Value : 0.8630         
+             Prevalence : 0.3700         
+         Detection Rate : 0.2700         
+   Detection Prevalence : 0.2700         
+      Balanced Accuracy : 0.8649         
+                                         
+       'Positive' Class : 1              
+                                         </code></pre>
+</div>
+</div>
+</section>
+<section id="preprocessing-data" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="preprocessing-data"><strong>Preprocessing data</strong></h4>
+<p>Not preprocessing data can also lead to an overestimation of performance measures in k-nns. Let’s illustrate this phenomenon on these data</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>) <span class="co"># For reproducibility</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>grid <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">k =</span> <span class="fu">seq</span>(<span class="dv">1</span>, <span class="dv">30</span>, <span class="at">by =</span> <span class="dv">1</span>)) </span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>knn_fit_raw <span class="ot">&lt;-</span> <span class="fu">train</span>(y <span class="sc">~</span> ., <span class="co"># Formula: target variable and predictors</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>                     <span class="at">data =</span> train, <span class="co"># Dataset</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>                     <span class="at">method =</span> <span class="st">"knn"</span>, <span class="co"># k-nn algorithm</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>                     <span class="at">tuneGrid =</span> grid) <span class="co"># Grid of values for k</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Training the k-nn model with pre-processing</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>knn_fit_PP <span class="ot">&lt;-</span> <span class="fu">train</span>(</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>  y <span class="sc">~</span> ., <span class="co"># Formula: target variable and predictors</span></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> train, <span class="co"># Dataset</span></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"knn"</span>, <span class="co"># k-nn algorithm</span></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">preProcess =</span> <span class="fu">c</span>(<span class="st">"center"</span>, <span class="st">"scale"</span>),</span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">tuneGrid =</span> grid) <span class="co"># Grid of values for k</span></span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>k_values_raw <span class="ot">&lt;-</span> knn_fit_raw<span class="sc">$</span>results<span class="sc">$</span>k</span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>accuracy_raw <span class="ot">&lt;-</span> knn_fit_raw<span class="sc">$</span>results<span class="sc">$</span>Accuracy</span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>k_values_PP <span class="ot">&lt;-</span> knn_fit_PP<span class="sc">$</span>results<span class="sc">$</span>k</span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>accuracy_PP <span class="ot">&lt;-</span> knn_fit_PP<span class="sc">$</span>results<span class="sc">$</span>Accuracy</span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Construction of a dataframe collecting the data</span></span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a>data_raw <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">k_values =</span> k_values_raw,</span>
+<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a>                       <span class="at">accuracy =</span> accuracy_raw,</span>
+<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a>                       <span class="at">Data =</span> <span class="st">"Raw Data"</span>)</span>
+<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a>data_pp <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">k_values =</span> k_values_PP,</span>
+<span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a>                      <span class="at">accuracy =</span> accuracy_PP,</span>
+<span id="cb14-31"><a href="#cb14-31" aria-hidden="true" tabindex="-1"></a>                      <span class="at">Data =</span> <span class="st">"Preprocessed Data"</span>)</span>
+<span id="cb14-32"><a href="#cb14-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-33"><a href="#cb14-33" aria-hidden="true" tabindex="-1"></a>plot_data <span class="ot">&lt;-</span> <span class="fu">rbind</span>(data_raw, data_pp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(plot_data, </span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> k_values,<span class="at">y =</span> accuracy,</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">color =</span> Data,<span class="at">linetype =</span> Data,<span class="at">shape =</span> Data)) <span class="sc">+</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">lwd =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Precision depending on the number of neighbors (k)"</span>,</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Number of neighbors (k)"</span>,</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Precision"</span>,</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"Data Type"</span>,</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">linetype =</span> <span class="st">"Data Type"</span>,</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">shape =</span> <span class="st">"Data Type"</span>) <span class="sc">+</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"blue"</span>, <span class="st">"red"</span>)) <span class="sc">+</span></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_linetype_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>)) <span class="sc">+</span></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_shape_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="dv">16</span>, <span class="dv">16</span>)) <span class="sc">+</span></span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"top"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="knn_files/figure-html/unnamed-chunk-10-1.svg" style="width:100.0%;height:100.0%"></p>
+</div>
+</div>
+</section>
+<section id="overfitting" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="overfitting"><strong>Overfitting</strong></h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>model_1 <span class="ot">&lt;-</span> <span class="fu">train</span>(</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  y <span class="sc">~</span> ., <span class="co"># Formula: target variable and predictors</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> train, <span class="co"># Dataset</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"knn"</span>, <span class="co"># k-nn algorithm</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">tuneGrid =</span> <span class="fu">data.frame</span>(<span class="at">k =</span> <span class="dv">1</span>) <span class="co"># Number of neighbors</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot of the decision boundary for k = 1 neighbor</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>train_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(Xtrain, <span class="at">Ytrain =</span> <span class="fu">factor</span>(Ytrain))</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>pred_grille <span class="ot">&lt;-</span> <span class="fu">predict</span>(model_1, grille, <span class="at">type =</span> <span class="st">"raw"</span>)</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>grid_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(grille, <span class="at">pred_grille =</span> <span class="fu">factor</span>(pred_grille))</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> grid_data,</span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>             <span class="fu">aes</span>(<span class="at">x =</span> grille[,<span class="dv">1</span>], <span class="at">y =</span> grille[,<span class="dv">2</span>], <span class="at">color =</span> pred_grille),</span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>             <span class="at">alpha =</span> <span class="fl">0.5</span>, <span class="at">size =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> train_data,</span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> Xtrain[,<span class="dv">1</span>], <span class="at">y =</span> Xtrain[,<span class="dv">2</span>],</span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>      <span class="at">shape =</span> Ytrain, <span class="at">color =</span> Ytrain), <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"#8785B2FF"</span>, <span class="st">"#DABD61FF"</span>), <span class="at">name =</span> <span class="st">"Class"</span>) <span class="sc">+</span></span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_shape_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="dv">16</span>, <span class="dv">17</span>), <span class="at">name =</span> <span class="st">"Class"</span>) <span class="sc">+</span></span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Decision boundary for k=1 neighbor"</span>, <span class="at">x =</span> <span class="st">"X1"</span>, <span class="at">y =</span> <span class="st">"X2"</span>) <span class="sc">+</span></span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"topright"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="knn_files/figure-html/unnamed-chunk-11-1.svg" style="width:100.0%;height:100.0%"></p>
+</div>
+</div>
+</section>
+<section id="finding-the-optimal-number-of-classes-by-cross-validation" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="finding-the-optimal-number-of-classes-by-cross-validation"><strong>Finding the optimal number of classes by cross-validation</strong></h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>grid <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">k =</span> <span class="fu">seq</span>(<span class="dv">1</span>, <span class="dv">30</span>, <span class="at">by =</span> <span class="dv">1</span>)) <span class="co"># Grid of k values</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>knn_model_validation <span class="ot">&lt;-</span> <span class="fu">train</span>(</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  y <span class="sc">~</span> ., <span class="at">data =</span> train, <span class="at">method =</span> <span class="st">"knn"</span>,</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">trControl =</span> <span class="fu">trainControl</span>(<span class="at">method =</span> <span class="st">"cv"</span>, <span class="at">number =</span> <span class="dv">10</span>) ,</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">tuneGrid =</span> grid <span class="co"># Test k = 1, 2, ..., 30</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>knn_model_validation</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>k-Nearest Neighbors 
+
+100 samples
+  2 predictor
+  2 classes: '1', '2' 
+
+No pre-processing
+Resampling: Cross-Validated (10 fold) 
+Summary of sample sizes: 89, 90, 90, 90, 90, 90, ... 
+Resampling results across tuning parameters:
+
+  k   Accuracy   Kappa    
+   1  0.9318182  0.7884278
+   2  0.9095960  0.7048375
+   3  0.9416162  0.8126161
+   4  0.9427273  0.8254308
+   5  0.9205051  0.7350241
+   6  0.9407071  0.8064679
+   7  0.9295960  0.7673375
+   8  0.9327273  0.7748235
+   9  0.9105051  0.6965626
+  10  0.9114141  0.7027108
+  11  0.9205051  0.7350241
+  12  0.9205051  0.7350241
+  13  0.9105051  0.6965626
+  14  0.9114141  0.7027108
+  15  0.9105051  0.6965626
+  16  0.9014141  0.6642493
+  17  0.9014141  0.6642493
+  18  0.9114141  0.6905650
+  19  0.9105051  0.6844168
+  20  0.9105051  0.6844168
+  21  0.9105051  0.6844168
+  22  0.9014141  0.6521035
+  23  0.9105051  0.6844168
+  24  0.9105051  0.6844168
+  25  0.9014141  0.6521035
+  26  0.9105051  0.6844168
+  27  0.9014141  0.6521035
+  28  0.9014141  0.6521035
+  29  0.9014141  0.6521035
+  30  0.8714141  0.4674881
+
+Accuracy was used to select the optimal model using the largest value.
+The final value used for the model was k = 4.</code></pre>
+</div>
+</div>
+</section>
+<section id="training-of-the-final-model-on-the-training-data-the-validation-data" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="training-of-the-final-model-on-the-training-data-the-validation-data"><strong>Training of the final model on the training data + the validation data</strong></h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>best_k <span class="ot">&lt;-</span> knn_model_validation<span class="sc">$</span>bestTune<span class="sc">$</span>k</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>finalData <span class="ot">&lt;-</span> <span class="fu">rbind</span>(train, valid) <span class="co"># Union of the datasets</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>final_model <span class="ot">&lt;-</span> <span class="fu">train</span>(</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>  y <span class="sc">~</span> ., <span class="at">data =</span> finalData,</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"knn"</span>,</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">tuneGrid =</span> <span class="fu">data.frame</span>(<span class="at">k =</span> best_k), <span class="co"># Use the best k</span></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">trControl =</span> <span class="fu">trainControl</span>(<span class="at">method =</span> <span class="st">"none"</span>)</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Import test data</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>test <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="at">file=</span><span class="st">"./data/synth_test.txt"</span>, <span class="at">header=</span><span class="cn">TRUE</span>)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>test<span class="sc">$</span>y <span class="ot">=</span> <span class="fu">as.factor</span>(test<span class="sc">$</span>y)</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  y          x1        x2
+1 2 -0.30748160 1.1420242
+2 2  0.51837239 1.0574169
+3 2 -0.05222164 0.7100728
+4 2 -0.08914077 1.3942948
+5 2 -0.37621346 0.9307517
+6 2 -0.18555218 0.7054576</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>testPredictions <span class="ot">&lt;-</span> <span class="fu">predict</span>(final_model, <span class="at">newdata =</span> test)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">confusionMatrix</span>(testPredictions, test<span class="sc">$</span>y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Confusion Matrix and Statistics
+
+          Reference
+Prediction  1  2
+         1 24  1
+         2  1 74
+                                          
+               Accuracy : 0.98            
+                 95% CI : (0.9296, 0.9976)
+    No Information Rate : 0.75            
+    P-Value [Acc &gt; NIR] : 1.874e-10       
+                                          
+                  Kappa : 0.9467          
+                                          
+ Mcnemar's Test P-Value : 1               
+                                          
+            Sensitivity : 0.9600          
+            Specificity : 0.9867          
+         Pos Pred Value : 0.9600          
+         Neg Pred Value : 0.9867          
+             Prevalence : 0.2500          
+         Detection Rate : 0.2400          
+   Detection Prevalence : 0.2500          
+      Balanced Accuracy : 0.9733          
+                                          
+       'Positive' Class : 1               
+                                          </code></pre>
+</div>
+</div>
 
 
+</section>
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -413,13 +1106,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./pred_per.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Predictive performance</span></span>
+      <a href="./validation.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Learning, validation, testing</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="./lda_qda.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Discriminant analysis</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Discriminant analysis</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

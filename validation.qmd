@@ -1,0 +1,56 @@
+# Learning, validation, testing
+
+Why slicing data:
+
+- Prevent overfitting
+
+- Test the generalizing capacity of a model on new data
+
+A classic scheme:
+
+- Training set (70%) : to adjust the model.
+
+- Validation set (20%) : to adjust the hyperparameters.
+
+- Test set (10%) : to evaluate final performance
+
+## Cross-validation
+
+[Cross-validation]{style="color:blue"} is a method of estimating model reliability based on a sampling technique.
+
+### K-fold cross-validation
+
+The original sample is divided into K samples (or blocks), then one of the K samples is selected as the validation set, while the other K − 1 samples constitute the training
+set.
+
+- Split the data into K sub-samples of the same size
+
+- For $k = 1,··· ,K,$:
+
+  - estimate the rule on the private data of sample k
+  
+  - predict the data of sample k with this rule
+  
+- Compute the performance criterion on these K predictions
+
+### Leave-one-out cross-validation (LOOCV)
+
+[Leave-one-out cross-validation]{style="color:blue"} is the special case of K block cross-validation with K = n. That is, at each learning-validation iteration, learning is performed on $n − 1$  observations and validation on the single remaining observation.
+
+- For $i = 1,··· ,n$
+ 
+  - estimate the rule on the data without the $i_{th}$ data
+ 
+  - predict this data i with this rule
+
+- Compute the performance criterion on these n predictions
+
+
+
+
+
+
+
+
+
+

@@ -30,7 +30,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./knn.html" rel="next">
+<link href="./validation.html" rel="next">
 <link href="./intro_classification.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -113,6 +113,12 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text">Introduction</span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./review.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Mathematic Review</span></a>
+  </div>
+</li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a href="./intro_classification.html" class="sidebar-item-text sidebar-link">
@@ -130,14 +136,49 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./validation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Learning, validation, testing</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./knn.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">k-nearest neighbors (KNN)</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">k-nearest neighbors (kNN)</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./lda_qda.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Discriminant analysis</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Discriminant analysis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./unsup.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Unsupervised classification</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./had.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Hierachical ascending classification</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./ml_theory.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Machine Learning theory</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./lin_reg.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Linear regression</span></span></a>
   </div>
 </li>
       </ul>
@@ -161,7 +202,7 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#confusion-matrix" id="toc-confusion-matrix" class="nav-link active" data-scroll-target="#confusion-matrix"><span class="header-section-number">1.1</span> Confusion matrix</a></li>
   <li><a href="#empirical-risk" id="toc-empirical-risk" class="nav-link" data-scroll-target="#empirical-risk"><span class="header-section-number">1.2</span> Empirical risk</a></li>
   <li><a href="#predictive-performances-in-binary-classification" id="toc-predictive-performances-in-binary-classification" class="nav-link" data-scroll-target="#predictive-performances-in-binary-classification"><span class="header-section-number">1.3</span> Predictive performances in binary classification</a>
-  <ul>
+  <ul class="collapse">
   <li><a href="#precisionrecallspecificity" id="toc-precisionrecallspecificity" class="nav-link" data-scroll-target="#precisionrecallspecificity"><span class="header-section-number">1.3.1</span> Precision/Recall/Specificity</a></li>
   <li><a href="#f1--score" id="toc-f1--score" class="nav-link" data-scroll-target="#f1--score"><span class="header-section-number">1.3.2</span> F1- Score</a></li>
   <li><a href="#kappa-de-cohen" id="toc-kappa-de-cohen" class="nav-link" data-scroll-target="#kappa-de-cohen"><span class="header-section-number">1.3.3</span> Kappa de Cohen</a></li>
@@ -590,8 +631,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./knn.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">k-nearest neighbors (KNN)</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./validation.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Learning, validation, testing</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

@@ -1,1 +1,393 @@
-## k-nearest neighbors (KNN)
+# k-nearest neighbors (kNN)
+
+The k-nearest neighbors algorithm or k-NN, like linear regression, is a supervised learning algorithm, so we have the set of $(x_i,y_i) i=1,···,n$ labeled data.
+
+-   This is a [non-parametric model]{style="color:blue"} (unlike regression), i.e. the model has no parameters whose value must be optimized. (k is not a parameter but a [hyperparameter]{style="color:blue"}).
+
+-   In the case of a [classification algorithm]{style="color:blue"}, the outputs $y_i$ correspond to the possible classes(and not continuous values, as in regression). The input $x_i$ is a vector of dimension $p$, containing the different variables associated with an input, an individual.
+
+## Principle
+
+1.  For each new input $x_0$, we measure the distance between $x_0$ and the inputs $x_i$ for all $i$ in ${1,··· ,n}$.
+
+::: callout-note
+Different distance measures (Euclidean, Manhattan...) can be used for this algorithm, depending on the problem studied.
+
+```{=tex}
+\begin{align}
+
+A(x_A,y_A,z_A)\:
+
+B(x_B,y_B,z_B)\\
+
+d_{Euclidean}(A,B) &=  \sqrt{(x_B - x_A)^2 + (y_B - y_A)^2 + (z_B - z_A)^2} \\
+
+d_{Manhattan}(A,B) &=  |x_{B} - x_A| + |y_B - y_A| + |z_B - z_A|
+
+\end{align}
+```
+:::
+
+2.  We then select the $k$ elements closest to the input.
+
+3.  The class predicted by the algorithm then corresponds to the *majority class*, i.e. the most frequent class in the k-NNs selected.
+
+## Applications
+
+-   The k-NN algorithm is frequently used in both classification and regression.
+
+-   It can also be used in shape recognition, with inputs containing the circumference, area or contour signature of the shape, and outputs corresponding to the various possible shapes.
+
+## Limitations
+
+::: callout-warning
+The value of k has a strong influence on prediction !
+:::
+
+-   [k too small]{style="color:blue"}: elements out of the ordinary will more easily influence the prediction. =\> This is the [overfitting]{style="color:blue"} problem.
+
+-   [k too large]{style="color:blue"}: the model will take into account data that are too far apart, and the majority class will be predicted too often. =\> This is the [underfitting]{style="color:blue"} problem.
+
+When studying higher-dimensional problems, it is therefore essential to have a [large amount of training data]{style="color:blue"}. For this reason, the k-NN algorithm quickly becomes unusable : beyond 4 or 5 dimensions, the number of data required becomes too large.
+
+## Practical
+
+### Example 1
+
+We have a data of 10 points
+
+::: columns
+
+::: {.column width="30%"}
+
+|number| x   | y   | z   | color|
+|------|-----|-----|-----|------|
+| 1    | 3   | 7   | 5   | black|
+| 2    | 4   | 6   | 2   | black|
+| 3    | 3   | 7   | 8   | white|
+| 4    | 0   | 1   | 2   | black|
+| 5    | 1   | 0   | 7   | white|
+| 6    | 5   | 4   | 4   | white|
+| 7    | 9   | 1   | 2   | black|
+| 8    | 5   | 3   | 3   | black|
+| 9    | 1   | 1   | 4   | white|
+| 10   | 2   | 3   | 7   | white|
+
+:::
+
+::: {.column width="70%"}
+
+We consider an eleventh point A with coordinates x = 4, y = 4 and z = 5
+
+The Euclidean distances between the point A(4,4,5) and the points in the table have been
+recorded in the following table:
+
+|point   | 1  | 2  | 3  | 4  | 5  | 6  | 7  | 8  | 9  | 10 |
+|--------|----|----|----|----|----|----|----|----|----|----|
+|distance|3.16|3.60|4.16|5.83|5.19|1.41|6.55|2.45|4.16|3   |
+
+
+:::
+
+:::
+
+We apply the k-nearest neighbors algorithm to predict the color at point A.
+
+- If k = 1:
+
+The closet point from A is point number 6 => A is white
+
+- If k = 3:
+
+The 3 closet points from A are number 6 (white), number 8 (black), number 10 (black) => A is black
+
+- If k = 5:
+
+The 5 closet points from A are number 6 (white), number 8 (black), number 10 (black), number 1 (black), number 2 (black) => A is black
+
+### Example 2
+
+```{r}
+#| echo: true
+#| message: false 
+#| code-fold: false
+
+library(caret)
+library(MASS)
+library(ggplot2)
+```
+
+#### **Data** {.unnumbered}
+
+```{r}
+#| echo: true
+#| message: false 
+#| code-fold: false
+
+train <- read.table(file="./data/synth_train.txt", header=TRUE)
+
+head(train)
+
+Xtrain <- train[,-1]
+Ytrain <- train$y
+
+train$y <- factor(train$y)
+train_data <- data.frame(X1 = train$x1, X2 = train$x2, Class = factor(train$y))
+
+ggplot(train_data, 
+       aes(x = X1, y = X2, shape = Class, color = Class)) +
+geom_point(size = 3) +
+scale_color_manual(values = c("#8785B2FF", "#DABD61FF"), name = "Class") +
+scale_shape_manual(values = c(16, 17), name = "Class") +
+labs(title = "Visualization of classes", x = "X1", y = "X2") +
+theme_minimal() +
+theme(legend.position = "top")
+```
+
+
+#### **Train model**{.unnumbered}
+
+```{r}
+#| echo: true
+#| message: false 
+#| code-fold: false
+
+model_15 <- train(
+    y ~ .,
+    data = train, # Data
+    method = "knn", # k-nn algorithm
+    tuneGrid = data.frame(k = 15) # Number of neighbors
+)
+```
+
+```{r}
+#| echo: true
+#| message: false 
+#| code-fold: false
+
+a <- seq(from=min(train$x1), to=max(train$x1), length.out=100)
+b <- seq(from=min(train$x2), to=max(train$x2), length.out=100)
+grille <- NULL
+for (i in a){
+grille <- data.frame(rbind(grille, cbind(i,b)))
+}
+
+names(grille) = c("x1","x2")
+
+train_data <- data.frame(Xtrain, Ytrain = factor(Ytrain))
+pred_grille <- predict(model_15, grille, type = "raw")
+
+grid_data <- data.frame(grille, pred_grille = factor(pred_grille))
+```
+
+```{r}
+#| echo: true
+#| message: false 
+#| code-fold: false
+
+ggplot() +
+  geom_point(data = grid_data,
+             aes(x = grille[,1], y = grille[,2], color = pred_grille),
+             alpha = 0.5, size = 0.5)+
+  geom_point(data = train_data,
+             aes(x = x1, y = x2, shape = Ytrain, color = Ytrain),size = 3) +
+  scale_color_manual(values = c("#8785B2FF", "#DABD61FF"), name = "Class") +
+  scale_shape_manual(values = c(16, 17), name = "Class") +
+  labs(title = "Decision frontier for k=15 neighbors", x = "X1", y = "X2") +
+  theme_minimal() +
+  theme(legend.position = "topright")
+```
+
+#### **Performance test**{.unnumbered}
+
+```{r}
+#| echo: true
+#| message: false 
+#| code-fold: false
+
+predictions = predict(model_15, Xtrain ,type = "raw")
+CM_15 = confusionMatrix(predictions, train$y)
+CM_15
+```
+
+#### **Validation**{.unnumbered}
+
+```{r}
+#| echo: true
+#| message: false 
+#| code-fold: false
+
+
+valid <- read.table(file="./data/synth_valid.txt", header=TRUE)
+valid$y = as.factor(valid$y)
+head(valid)
+```
+
+```{r}
+#| echo: true
+#| message: false 
+#| code-fold: false
+
+predictions = predict(model_15, valid ,type = "raw")
+CM_15 = confusionMatrix(predictions, valid$y)
+CM_15
+```
+
+#### **Preprocessing data**{.unnumbered}
+
+Not preprocessing data can also lead to an overestimation of performance measures in k-nns. Let’s illustrate this phenomenon on these data
+
+```{r}
+#| echo: true
+#| message: false 
+#| code-fold: false
+
+set.seed(123) # For reproducibility
+grid <- expand.grid(k = seq(1, 30, by = 1)) 
+
+knn_fit_raw <- train(y ~ ., # Formula: target variable and predictors
+                     data = train, # Dataset
+                     method = "knn", # k-nn algorithm
+                     tuneGrid = grid) # Grid of values for k
+
+# Training the k-nn model with pre-processing
+knn_fit_PP <- train(
+  y ~ ., # Formula: target variable and predictors
+  data = train, # Dataset
+  method = "knn", # k-nn algorithm
+  preProcess = c("center", "scale"),
+  tuneGrid = grid) # Grid of values for k
+
+k_values_raw <- knn_fit_raw$results$k
+accuracy_raw <- knn_fit_raw$results$Accuracy
+
+k_values_PP <- knn_fit_PP$results$k
+accuracy_PP <- knn_fit_PP$results$Accuracy
+
+# Construction of a dataframe collecting the data
+
+data_raw <- data.frame(k_values = k_values_raw,
+                       accuracy = accuracy_raw,
+                       Data = "Raw Data")
+
+data_pp <- data.frame(k_values = k_values_PP,
+                      accuracy = accuracy_PP,
+                      Data = "Preprocessed Data")
+
+plot_data <- rbind(data_raw, data_pp)
+
+```
+
+```{r}
+#| echo: true
+#| message: false 
+
+ggplot(plot_data, 
+       aes(x = k_values,y = accuracy,
+           color = Data,linetype = Data,shape = Data)) +
+  geom_line(lwd = 1) +
+  geom_point(size = 3) +
+  labs(
+    title = "Precision depending on the number of neighbors (k)",
+    x = "Number of neighbors (k)",
+    y = "Precision",
+    color = "Data Type",
+    linetype = "Data Type",
+    shape = "Data Type") +
+  scale_color_manual(values = c("blue", "red")) +
+  scale_linetype_manual(values = c(1, 2)) +
+  scale_shape_manual(values = c(16, 16)) +
+  theme_minimal() +
+  theme(legend.position = "top")
+```
+
+#### **Overfitting**{.unnumbered}
+
+```{r}
+#| echo: true
+#| message: false 
+#| code-fold: false
+
+model_1 <- train(
+  y ~ ., # Formula: target variable and predictors
+  data = train, # Dataset
+  method = "knn", # k-nn algorithm
+  tuneGrid = data.frame(k = 1) # Number of neighbors
+)
+
+# Plot of the decision boundary for k = 1 neighbor
+
+train_data <- data.frame(Xtrain, Ytrain = factor(Ytrain))
+pred_grille <- predict(model_1, grille, type = "raw")
+grid_data <- data.frame(grille, pred_grille = factor(pred_grille))
+
+ggplot() +
+  geom_point(data = grid_data,
+             aes(x = grille[,1], y = grille[,2], color = pred_grille),
+             alpha = 0.5, size = 0.5) +
+  geom_point(data = train_data,
+  aes(x = Xtrain[,1], y = Xtrain[,2],
+      shape = Ytrain, color = Ytrain), size = 3) +
+  scale_color_manual(values = c("#8785B2FF", "#DABD61FF"), name = "Class") +
+  scale_shape_manual(values = c(16, 17), name = "Class") +
+  labs(title = "Decision boundary for k=1 neighbor", x = "X1", y = "X2") +
+  theme_minimal() +
+  theme(legend.position = "topright")
+```
+
+#### **Finding the optimal number of classes by cross-validation**{.unnumbered}
+
+```{r}
+#| echo: true
+#| message: false 
+#| code-fold: false
+
+set.seed(123)
+grid <- expand.grid(k = seq(1, 30, by = 1)) # Grid of k values
+
+knn_model_validation <- train(
+  y ~ ., data = train, method = "knn",
+  trControl = trainControl(method = "cv", number = 10) ,
+  tuneGrid = grid # Test k = 1, 2, ..., 30
+  )
+
+knn_model_validation
+```
+
+#### **Training of the final model on the training data + the validation data**{.unnumbered}
+
+```{r}
+#| echo: true
+#| message: false 
+#| code-fold: false
+
+best_k <- knn_model_validation$bestTune$k
+
+finalData <- rbind(train, valid) # Union of the datasets
+
+set.seed(123)
+
+final_model <- train(
+  y ~ ., data = finalData,
+  method = "knn",
+  tuneGrid = data.frame(k = best_k), # Use the best k
+  trControl = trainControl(method = "none")
+)
+```
+
+Import test data
+
+```{r}
+#| echo: true
+#| message: false 
+#| code-fold: false
+
+test <- read.table(file="./data/synth_test.txt", header=TRUE)
+test$y = as.factor(test$y)
+head(test)
+
+testPredictions <- predict(final_model, newdata = test)
+confusionMatrix(testPredictions, test$y)
+
+```
+

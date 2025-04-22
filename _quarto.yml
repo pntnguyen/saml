@@ -9,13 +9,25 @@ book:
   chapters:
     - index.qmd
     - intro.qmd
+    - review.qmd
     - part: intro_classification.qmd
       chapters: 
       - pred_per.qmd
+      - validation.qmd
       - knn.qmd
       - lda_qda.qmd
-    # - summary.qmd
+      - unsup.qmd
+      - had.qmd
+    - part: ml_theory.qmd
+      chapters: 
+      - lin_reg.qmd
     - references.qmd
+
+knitr:
+  opts_chunk:
+    out.width: "100%"
+    out.height: "100%"
+
 
 toc: true
 echo: false
@@ -28,7 +40,7 @@ format:
     code-fold: true
     code-copy: true
     fig-format: svg
-    toc-depth: 5
+    toc-depth: 3
     toc-expand: 3
 
 editor: visual

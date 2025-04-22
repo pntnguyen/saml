@@ -1,0 +1,341 @@
+# Unsupervised classification
+
+The objective of unsupervised classification is to determine the $K$ classes $\mathcal{P}_{K} = {C_1,··· ,C_K}$ of the n individuals of X such that a class is a grouping of individuals :
+
+-   similar to each other (homogeneity in the class)
+
+-   different from individuals in other classes (well-separated classes)
+
+::: {.callout-tip title="Question"}
+How to [automatically define groups]{style="color:blue"} of individuals or variables that are similar ?
+:::
+
+There are many automatic clustering algorithms that are distinguished by :
+
+-   the [nature of the objects]{style="color:blue"} to be clustered : individuals or variables
+
+-   the [nature of the data]{style="color:blue"} : quantitative, qualitative or mixed
+
+-   the [nature of the classification structure]{style="color:blue"} : partition or hierarchy
+
+-   the [nature of the approach used]{style="color:blue"} : geometric approach (distance, dissimilarity, similarity) or probabilistic approach (mixture models)
+
+::: {.callout-warning title="Note"}
+Here, we are interested in the [classification of individuals]{style="color:blue"} described by [quantitative data]{style="color:blue"}, using [geometric]{style="color:blue"} approaches using [distances]{style="color:blue"}.
+:::
+
+We have a set of points of $R_p$ (data) for which we do not know the labels, but that we want to group together in an **“intelligent”** way.
+
+::: columns
+::: {.column width="30%"}
+|          | X1  | X2  |
+|----------|-----|-----|
+| Brigitte | 140 | 6.0 |
+| Marie    | 85  | 5.9 |
+| Vincent  | 135 | 6.1 |
+| Alex     | 145 | 5.8 |
+| Manue    | 130 | 5.4 |
+| Fred     | 145 | 5.0 |
+:::
+
+::: {.column width="70%"}
+```{r,message=FALSE}
+library(ggdendro)
+library(tidyverse)
+
+X <- data.frame(
+  X1 = c(140, 85, 135, 145, 130, 145),
+  X2 = c(6, 5.9, 6.1, 5.8, 5.4, 5)
+)
+
+rownames(X) <- c("Brigitte","Marie","Vincent","Alex","Manue", "Fred") 
+
+ggplot(X, aes(x = X1, y = X2)) +
+geom_point(size = 4) + # Points
+geom_text(aes(label = rownames(X)), vjust = -0.5, hjust = 1.5) + # Add the labels
+theme_minimal() + # Minimal theme
+xlim(80, 155) + # x-axis limits
+ylim(4.8, 6.2) + # y-axis limits
+labs(x = "X1", y = "X2")
+
+```
+:::
+:::
+
+## Partition
+
+::: {.callout-note title="Definition"}
+A partition $\mathcal{P}$ into $K$ classes of individuals is a set of non-empty classes, two by two disjoint and whose union is the set of individuals:
+
+```{=tex}
+\begin{align*}
+C_k &\ne \emptyset, \quad \forall k \in \{1, \dots, K\} \\
+C_k \cap C_{k'} &= \emptyset, \quad \forall k, k' \in \{1, \dots, K\} \\
+C_1 \cup \cdots \cup C_K &= \Omega
+\end{align*}
+```
+:::
+
+For the example $\Omega = \{Brigitte, Marie, Vincent, Alex, Manue, Fred\}$, I proposed a partition $\mathcal{P}^3 = \{C1,C2,C3\}$ into 3 classes of the 6 individuals below.
+
+::: columns
+::: {.column width="70%"}
+```{r}
+X %>% mutate(partition = c(rep("C1",2),rep("C2",2),rep("C3",2)),
+             value = c(rep(2/6,2),rep(2/6,2),rep(2/6,2)),
+             position = c(c(1.5,1.7),c(.8,1.2),c(0.25,0.6))) %>% 
+  ggplot(aes(x = "", y = value,fill = partition))+
+  geom_bar(stat="identity", width=1) +
+  coord_polar("y", start=0)+
+  geom_text(aes(y = position, label = rownames(X)), size=5)+
+  theme_void()
+```
+:::
+
+::: {.column width="30%"}
+$C1 = \{Marie, Brigitte\}$
+
+$C2 = \{Alex, Vincent\}$
+
+$C3 = \{Manue, Fred\}$
+:::
+:::
+
+## Hierachy
+
+::: {.callout-note title="Definition"}
+A hierarchy H of a set of parts $\mathcal{X} = \{x_1,...,x_n\}$ satisfying:
+
+-   $\forall i \in [1,n], \{x_i\} \in H$
+
+-   $\mathcal{X} \in \mathcal{H}$
+
+-   $\forall A, B \in \mathcal{H}, A \cap B = \emptyset \: or A \subset B \: or B \subset A$
+
+A dendrogram (or hierarchical tree) is the graphical representation of an indexed hierarchy and the function h measures the height of the classes in this dendrogram.
+:::
+
+$\mathcal{H} = \{ \{Brigitte\}, \{Marie\}, \{Vincent\}, \{Alex\}, \{Manue\}, \{Fred\},$
+
+$\{Alex,Fred\},\{Brigitte,Vincent\},\{Brigitte,Vincent,Manue\},$
+
+$\{Brigitte, Marie, Vincent, Alex, Manue, Fred\} \}$
+
+By defining a [cut level]{style="color:blue"}, we will obtain a partition.
+
+[$\mathcal{P} = \{ \{Marie\},\{Alex,Fred\}, \{Manue\}, \{Brigitte\} ,\{Vincent\}   \}$]{style="color:red"}
+
+[$\mathcal{P} = \{ \{Marie\},\{Alex,Fred\}, \{Manue\}, \{Brigitte,Vincent\}   \}$]{style="color:yellow"}
+
+[$\mathcal{P} = \{ \{Marie\},\{Alex,Fred\}, \{Manue,Brigitte,Vincent\}  \}$]{style="color:blue"}
+
+[$\mathcal{P} = \{ \{Marie, Alex,Fred\}, \{Manue,Brigitte,Vincent\} \}$]{style="color:pink"}
+
+```{r}
+d <- stats::dist(X) # compute the Euclidean distances between points
+
+treeC <- hclust(d, method="complete")
+
+ggdendrogram(treeC, rotate = FALSE, size = 5)+
+  geom_hline(yintercept = 3,lwd=0.5,color = "red")+
+  geom_hline(yintercept = 7,lwd=0.5,color = "yellow")+
+  geom_hline(yintercept = 13,lwd=0.5,color = "blue")+
+  geom_hline(yintercept = 24,lwd=0.5,color = "pink")
+```
+
+> Dendrogram
+
+## How to measure the distance between individuals ?
+
+Clustering methods require the ability to quantify the [dissimilarity]{style="color:blue"} between the observations.
+
+### Binary data
+
+For [binary data]{style="color:blue"} (i.e. vectors composed of 0 and 1), we construct the cross-table between two individuals $i$ and $i′$ :
+
+::: columns
+::: {.column width="30%"}
+$I_1$ = {1,0,0,1,1,1,0,0}
+
+$I_2$ = {0,1,0,1,1,1,1,0}
+:::
+
+::: {.column width="40%"}
+|                  |       | 1   | 0   | individual i' |
+|------------------|-------|-----|-----|---------------|
+| **individual i** | **1** | a   | b   |               |
+|                  | **0** | c   | d   |               |
+:::
+:::
+
+There are then several normalized **similarity indices** ($s_{max} = 1$):
+
+::: columns
+::: {.column width="30%"}
+Jaccard $\frac{a}{a+b+c}$
+
+Russel and Rao $\frac{a}{2a+b+c+d}$
+:::
+
+::: {.column width="30%"}
+Dice or Czekanowski $\frac{2a}{2a+b+c}$
+
+Ochiai $\frac{a}{\sqrt{a+b} + \sqrt{a+c}}$
+:::
+:::
+
+A [dissimilarity index]{style="color:blue"}:
+
+$$
+d(i,i') = s_{max} - s(i,i')
+$$
+
+### Quantitative data
+
+For [quantitative]{style="color:blue"} data x and y of $\mathcal{R}^P$:
+
+-   simple Euclidean distance :
+
+    $$d^2(x,y)=\sum\nolimits_{j=1}^{p}(x_j - y_j)^2$$
+
+-   normalized Euclidean distance :
+
+    $$d^2(x,y)=\sum\nolimits_{j=1}^{p}\frac{1}{s^2_j}(x_j - y_j)^2$$ where $s^2_j = \frac{1}{n}\sum\nolimits_{i=1}^{n}(x_ij-x^{-j})^2$ and $x^{-j} = \frac{1}{n}\sum\nolimits_{i=1}^{n}x_{ij}$
+
+-   city-block or Manhattan distance:
+
+    $$d(x,y) = \sum\nolimits_{j}^{}|x_j-y_j|$$
+
+-   Chebyshev or max distance :
+
+    $$d(x,y) = max_{j}|x_j-y_j|$$
+
+::: callout-note
+In general, we use the simple Euclidean distance when all the variables have the **same measurement scale**
+
+In the case of measurement scales that are **too different**, it is preferable to use the normalized Euclidean distance in order to give the same importance to all the variables.
+:::
+
+## How to measure the distance between classes ?
+
+### Linkage function
+
+::: columns
+::: {.column width="50%"}
+**Minimum link**
+
+$$
+D(C_k,C_{k'}) = \min_{x \in C_k,x' \in C_k'} d(x,x')
+$$
+
+![](fig/classification/min_link.png){width="500" fig-align="center"}
+
+-   Minimal spanning tree:
+
+    -   Classes with very different diameters
+
+    -   Chaining effect: tendency to aggregate rather than create new classes
+
+    -   Sensitivity to noisy individuals
+:::
+
+::: {.column width="50%"}
+**Miximal link**
+
+$$
+D(C_k,C_{k'}) = \max_{x \in C_k,x' \in C_k'} d(x,x')
+$$ ![](fig/classification/max_link.png){width="500" fig-align="center"}
+
+-   Creates compact classes (diameter control): this fusion generates the smallest increase in diameters:
+
+    -   Sensitivity to noisy individuals
+:::
+:::
+
+::: columns
+::: {.column width="50%"}
+**The average link**
+
+$$
+D(C_k,C_{k'}) = \frac {1}{|C_k||C_{k'}|}\sum_{x \in C_k}^{}\sum_{x' \in C_{k'}}^{}d(x,x')
+$$
+
+![](fig/classification/aver_link.png){width="500" fig-align="center"}
+
+-   Trade-off between minimal and maximal links : good balance between class separation and class diameter diameter
+
+-   Tendency to produce classes of close variance
+:::
+
+::: {.column width="50%"}
+**The Ward's link**
+
+$$
+D(C_k,C_{k'}) = \frac {|C_k|+|C_{k'}|}{|C_k||C_{k'}|}d(\mu_k,\mu_{k'})^2
+$$
+
+![](fig/classification/ward_link.png){width="500" fig-align="center"}
+
+where $\mu_k,\mu_{k'}$ are gravity centers of $C_k,C_{k'}$
+
+-   Tendency to build classes of the same size for a given level of hierarchy.
+
+-   Groups classes with close barycenters
+
+-   Breaks the chain effect of the minimum link
+:::
+:::
+
+![](fig/classification/linkage.png){fig-align="center"}
+
+## How to evaluate the quality of a partition ?
+
+A good partition into K classes has classes:
+
+-   homogeneous : individuals in the same class are similar,
+
+-   separate : individuals from two different classes are not similar.
+
+::: columns
+::: {.column width="50%"}
+The [cohesion]{style="color:blue"} of the classes of a partition can be measured by the largest diameter.
+
+![](fig/classification/cohesion.png){fig-align="center"}
+:::
+
+::: {.column width="50%"}
+The [separation]{style="color:blue"} of the classes of a partition can be measured by the smallest minimum link.
+
+![](fig/classification/separation.png){fig-align="center"}
+:::
+:::
+
+We consider a partition $\mathcal{P}_K = {C_1,··· ,C_K}$ in $K$ classes. We assume here that the data are quantitative and that the weight of the individuals is $\frac{1}{n}$.
+
+We note $\mu$ the center of gravity of the point cloud
+
+$$\mu = \frac{1}{n}\sum\nolimits_{i=1}^{n} x_i$$
+
+and for each class k, $\mu_k$ the center of gravity of the class $k$
+
+$$\mu_k = \frac{1}{|C_k|}\sum_{i \in C_k}^{} x_i, for\ all\ k \in K$$
+
+::: callout-note
+[Total inertia]{style="color:blue"} (independent of the partition) = total variance
+
+$$I_{Tot} = \sum_{i = 1}^{n} d(\mu,x_i)^2 = I_{Inter} + I_{Intra}$$
+
+[Inter-class inertia]{style="color:blue"} = variance of the class centers
+
+$$I_{Inter} = \sum_{k = 1}^{K} |C_k| d(\mu,\mu_k)^2$$
+
+[Intra-class inertia]{style="color:blue"} = variance of points in the same class
+
+$$I_{Intra} = \sum_{k = 1}^{K}\sum_{i \in C_k}^{} d(\mu,x_i)^2$$
+:::
+
+To obtain a good partitioning, it is therefore appropriate to both :
+
+-   minimize the [intra-class inertia]{style="color:blue"} to obtain the most homogeneous clusters possible
+
+-   maximize the [inter-class inertia]{style="color:blue"} to obtain well-differentiated subsets
