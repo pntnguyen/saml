@@ -18,6 +18,7 @@ book:
       - lda_qda.qmd
       - unsup.qmd
       - had.qmd
+      - kmean.qmd
     - part: ml_theory.qmd
       chapters: 
       - lin_reg.qmd

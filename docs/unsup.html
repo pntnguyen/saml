@@ -164,6 +164,12 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Hierachical ascending classification</span></span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kmean.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">k-means</span></span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -178,7 +184,7 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./lin_reg.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Linear regression</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Linear regression</span></span></a>
   </div>
 </li>
       </ul>
@@ -609,6 +615,49 @@ Note
 <li><p>minimize the <span style="color:blue">intra-class inertia</span> to obtain the most homogeneous clusters possible</p></li>
 <li><p>maximize the <span style="color:blue">inter-class inertia</span> to obtain well-differentiated subsets</p></li>
 </ul>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><span style="color:blue">Internal metric</span> (practical situation - unknown truth):</p>
+<ul>
+<li><p>silhouette coefficient</p></li>
+<li><p>R-Square (RSQ) and semi-partial R-Square (SPRSQ)</p></li>
+</ul>
+</div><div class="column" style="width:50%;">
+<p><span style="color:blue">External metric</span> (specific method if we know the truth):</p>
+<ul>
+<li><p>purity</p></li>
+<li><p>normalized mutual information</p></li>
+</ul>
+</div>
+</div>
+<p><strong>An example of internal metric : coefficient silhouette</strong></p>
+<p>We assume that we have n points and K clusters. Let <span class="math inline">\(x_i\)</span> be a data such that <span class="math inline">\(i \in C_k\)</span>.</p>
+<p><span style="color:blue">Cohesion</span> = average distance between <span class="math inline">\(x_i\)</span> and the other points of <span class="math inline">\(C_k\)</span></p>
+<p><span class="math display">\[a(i) = \frac {1}{|C_k|-1}\sum_{j \in C_k, j \neq i}d(x_i,x_j)\]</span></p>
+<p><span style="color:blue">Separation</span> = average distance between <span class="math inline">\(x_i\)</span> and the other points of the closet classes:</p>
+<p><span class="math display">\[b(i) = \min_{l \neq k }\frac {1}{|C_l|}\sum_{j \in C_l}d(x_i,x_j)\]</span></p>
+<p><span style="color:blue">Coefficient silhouette</span>:</p>
+<p><span class="math display">\[s(i) = \frac{b(i)-a(i)}{max(a(i),b(i))} \in [-1,1]\]</span></p>
+<p><strong>An example of internal metric : criteria based on inertia</strong></p>
+<p>Let <span class="math inline">\(\mathscr{P}_K\)</span> be a partition</p>
+<ul>
+<li><span style="color:blue">R-square</span>:</li>
+</ul>
+<p><span class="math display">\[
+RSQ(\mathscr{P}_K) = \frac{I_{Inter}(\mathscr{P}_K)}{I_{Tot}} = 1- \frac{I_{Intra}(\mathscr{P}_K)}{I_{Tot}}
+\]</span></p>
+<ul>
+<li><span style="color:blue">Semi-partial R-square</span>:</li>
+</ul>
+<p><span class="math display">\[
+RSQ(\mathscr{P}_K) = \frac{I_{Inter}(\mathscr{P}_K)-I_{Inter}(\mathscr{P}_{K-1})}{I_{Tot}}
+\]</span></p>
+<p><strong>An example of an external metric : purity</strong></p>
+<p>Let <span class="math inline">\(\mathscr{P}_K^{*} = \{ C_1^*,..., C_K^* \}\)</span> be the true partition of the n points.</p>
+<p>Consider a partition <span class="math inline">\(\mathscr{P}_K = \{ C_1,..., C_K \}\)</span>.</p>
+<p><span class="math display">\[
+Purity(\mathscr{P}_K) =\frac{1}{n} \sum_{k=1}^K \max_{l \in \{1,...,K^*\}} |C_l^{*} \cap C_k|
+\]</span></p>
 
 
 </section>

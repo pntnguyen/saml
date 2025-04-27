@@ -380,3 +380,134 @@ ggplot() +
     labs(title = "Decision boundary - QDA", x = "Variable 1", y = "Variable 2") +
     theme_minimal()
 ```
+
+
+## Practical 2
+
+```{r}
+#| echo: true
+#| message: false 
+#| warning: false  
+#| code-fold: false
+
+library(class)
+library(caret)
+library(FNN)
+library(ggplot2)
+library(readr)
+library(gridExtra)
+```
+
+1. Import the 500 images from the file ***numbers_train.txt***.
+
+```{r}
+#| echo: true
+#| message: false 
+#| warning: false  
+#| code-fold: false
+
+dataTrain <- read.table("./data/numbers_train.txt", header=TRUE)
+```
+
+2.  Visualize the first 16 images.
+
+```{r}
+#| echo: true
+#| message: false 
+#| warning: false  
+#| code-fold: false
+
+# Function to convert a vector into a matrix 16 * 16
+vector_to_matrix <- function(vec) {
+  matrix(as.numeric(vec), nrow = 16, ncol = 16, byrow = TRUE)
+}
+```
+
+```{r}
+#| echo: true
+#| message: false 
+#| warning: false  
+#| code-fold: false
+
+plots <- list()
+for (i in 1:16) {
+  img_matrix <- vector_to_matrix(dataTrain[i, -1])  # Exclude the first column (label)
+  img_df <- expand.grid(x = 1:16, y = 1:16)
+  img_df$intensity <- as.vector(t(img_matrix))
+  
+ plots[[i]] =  ggplot(img_df, aes(x, 17-y, fill = intensity)) +
+    geom_tile(show.legend = FALSE) +
+    scale_fill_gradient(low = "black", high = "white") +
+    coord_fixed() +
+    theme_void() +
+    ggtitle(paste("Image", i))
+}
+
+grid.arrange(grobs = plots, ncol = 4)
+```
+
+3. Predict with the **lda** method the classes of the 500 images of the training set and calculate the learning error rate.
+
+```{r}
+#| echo: true
+#| message: false 
+#| warning: false  
+#| code-fold: false
+
+# Separate explanatory variables (pixels) and target variable (class)
+Xtrain <- as.matrix(dataTrain[,-1])
+Ytrain <- as.factor(dataTrain[,1])
+train_data <- data.frame(Ytrain, Xtrain)
+
+# Fit LDA on training set
+lda_model <- train(Ytrain ~ ., 
+                   data = train_data, 
+                   method = "lda",
+                   trControl = trainControl(method = "none")) # No cross-validation
+
+# Predict on training set
+y_pred <- predict(lda_model, Xtrain)
+
+# Calculate error rate
+error_rate <- mean(y_pred != Ytrain)
+
+```
+
+4. Import the 500 images from the file ***numbers_test.txt***.
+
+```{r}
+#| echo: true
+#| message: false 
+#| warning: false  
+#| code-fold: false
+
+dataTest <- read.table("./data/numbers_test.txt", header=TRUE)
+```
+
+5. Now predict the classes of the 500 images of the test set and calculate the test error rate.
+
+```{r}
+#| echo: true
+#| message: false 
+#| warning: false  
+#| code-fold: false
+
+# Separate the explanatory variables (pixels) and the target variable (class)
+Xtest <- as.matrix(dataTest[,-1])
+Ytest <- as.factor(dataTest[,1])
+
+# Predict on the test set
+y_pred <- predict(lda_model, Xtest)
+
+y_pred
+
+# Calculate the error rate
+error_rate <- mean(y_pred != Ytest)
+
+# Display the result
+cat("Training error rate:", error_rate * 100, "%\n")
+```
+
+
+
+

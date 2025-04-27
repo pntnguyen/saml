@@ -320,14 +320,18 @@ and for each class k, $\mu_k$ the center of gravity of the class $k$
 
 $$\mu_k = \frac{1}{|C_k|}\sum_{i \in C_k}^{} x_i, for\ all\ k \in K$$
 
-::: callout-note
+:::{.callout-note}
 [Total inertia]{style="color:blue"} (independent of the partition) = total variance
 
 $$I_{Tot} = \sum_{i = 1}^{n} d(\mu,x_i)^2 = I_{Inter} + I_{Intra}$$
 
+
+
 [Inter-class inertia]{style="color:blue"} = variance of the class centers
 
 $$I_{Inter} = \sum_{k = 1}^{K} |C_k| d(\mu,\mu_k)^2$$
+
+
 
 [Intra-class inertia]{style="color:blue"} = variance of points in the same class
 
@@ -340,8 +344,71 @@ To obtain a good partitioning, it is therefore appropriate to both :
 
 -   maximize the [inter-class inertia]{style="color:blue"} to obtain well-differentiated subsets
 
+::: columns
 
+::: {.column width="50%"}
 
+[Internal metric]{style="color:blue"} (practical situation - unknown truth):
+
+- silhouette coefficient
+
+- R-Square (RSQ) and semi-partial R-Square (SPRSQ)
+
+:::
+
+::: {.column width="50%"}
+
+[External metric]{style="color:blue"} (specific method if we know the truth):
+
+- purity
+
+- normalized mutual information
+
+:::
+
+:::
+
+**An example of internal metric : coefficient silhouette**
+
+We assume that we have n points and K clusters. Let $x_i$ be a data such that $i \in C_k$.
+
+[Cohesion]{style="color:blue"} = average distance between $x_i$ and the other points of $C_k$
+
+$$a(i) = \frac {1}{|C_k|-1}\sum_{j \in C_k, j \neq i}d(x_i,x_j)$$
+
+[Separation]{style="color:blue"} = average distance between $x_i$ and the other points of the closet classes:
+
+$$b(i) = \min_{l \neq k }\frac {1}{|C_l|}\sum_{j \in C_l}d(x_i,x_j)$$
+
+[Coefficient silhouette]{style="color:blue"}:
+
+$$s(i) = \frac{b(i)-a(i)}{max(a(i),b(i))} \in [-1,1]$$
+
+**An example of internal metric : criteria based on inertia**
+
+Let $\mathscr{P}_K$ be a partition
+
+- [R-square]{style="color:blue"}:
+
+$$
+RSQ(\mathscr{P}_K) = \frac{I_{Inter}(\mathscr{P}_K)}{I_{Tot}} = 1- \frac{I_{Intra}(\mathscr{P}_K)}{I_{Tot}} 
+$$
+
+- [Semi-partial R-square]{style="color:blue"}:
+
+$$
+RSQ(\mathscr{P}_K) = \frac{I_{Inter}(\mathscr{P}_K)-I_{Inter}(\mathscr{P}_{K-1})}{I_{Tot}} 
+$$
+
+**An example of an external metric : purity**
+
+Let $\mathscr{P}_K^{*} = \{ C_1^*,..., C_K^* \}$ be the true partition of the n points.
+
+Consider a partition $\mathscr{P}_K = \{ C_1,..., C_K \}$.
+
+$$
+Purity(\mathscr{P}_K) =\frac{1}{n} \sum_{k=1}^K \max_{l \in \{1,...,K^*\}} |C_l^{*} \cap C_k|
+$$
 
 
 

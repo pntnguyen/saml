@@ -1,0 +1,156 @@
+# k-means
+
+## The algorithm
+
+Optimal partition:
+
+-   Choose from all the partitions into K classes the one with the greatest inter inertia.
+
+-   Problem : number of partitions into K classes of the n individuals $\sim \frac{K^n}{K!}.K!$
+
+=\> Complete enumeration impossible.
+
+Locally optimal partition - Heuristic of the type :
+
+-   We start from a feasible solution, i.e. a partition $\mathscr{P}_K^0$
+
+
+```{r,warning=FALSE,message=FALSE}
+
+library(tidyverse)
+library(gganimate)
+
+set.seed(123)
+n <- 150
+
+data <- data.frame(
+  x = c(rnorm(n, mean = 3, sd = .5), rnorm(n, mean = 8, sd = .5), rnorm(n, mean = 7, sd = .5)),
+  y = c(rnorm(n, mean = 5, sd = .5), rnorm(n, mean = 8, sd = .5), rnorm(n, mean = 3, sd = .5))
+)
+
+init <- data.frame(
+  x = c(3.75,3.2,2.5),
+  y = c(5,6,4.5)
+)
+
+init$step <- rep(0,nrow(init))
+
+init1 <- init
+init1$step <- rep(1,nrow(init1))
+
+init <- rbind(init,init1)
+
+data$step <- rep(0,nrow(data))
+data$class <- rep(0,nrow(data))
+
+out <- data.frame()
+
+for (k in 1:3){
+  for (i in 1:nrow(data)){
+    out[i,k] <- proxy::dist(as.data.frame(data[i,-c(3,4)]),
+                           as.data.frame(init[k,-3]),
+                           method="euclidean") |> as.numeric()
+    }
+  }
+
+colnames(out) <- as.character(c(1,2,3))
+
+
+out <- out %>% mutate(
+  class = names(out)[apply(out, MARGIN = 1, FUN = which.min)] 
+) 
+
+data2 <- data
+
+data2$class <- out$class
+data2$step <- rep(1,nrow(data))
+
+data_plot <- rbind(data,data2)
+
+data_f <- data_plot %>% filter(step == 1)
+
+data_f$step <- rep(2,nrow(data_f))
+data_plot <- rbind(data_plot,data_f)
+
+init2 <- data.frame()
+
+for (k in 1:3){
+  init2a <- data_plot %>% filter(step ==2) %>% 
+    filter(class == k) %>% 
+    select(c(x,y)) %>% 
+    colMeans()
+  init2 <- rbind(init2,init2a)
+}
+
+colnames(init2) <- c("x","y")
+init2$step <- rep(2,nrow(init2))
+
+init <- rbind(init,init2)
+
+## step 2
+
+out <- data.frame()
+
+for (k in 1:3){
+  for (i in 1:nrow(data)){
+    out[i,k] <- proxy::dist(as.data.frame(data[i,-c(3,4)]),
+                            as.data.frame(init2[k,-3]),
+                            method="euclidean") |> as.numeric()
+  }
+}
+
+colnames(out) <- as.character(c(1,2,3))
+
+out <- out %>% mutate(
+  class = names(out)[apply(out, MARGIN = 1, FUN = which.min)] 
+) 
+
+data2 <- data
+
+data2$class <- out$class
+data2$step <- rep(3,nrow(data))
+
+data_plot <- rbind(data_plot,data2)
+
+data2$step <- rep(4,nrow(data))
+
+data_plot <- rbind(data_plot,data2)
+
+# init2$step <- rep(3,3)
+# init <- rbind(init,init2)
+
+init2 <- data.frame()
+
+for (k in 1:3){
+  init2a <- data_plot %>% filter(step ==3) %>% 
+    filter(class == k) %>% 
+    select(c(x,y)) %>% 
+    colMeans()
+  init2 <- rbind(init2,init2a)
+}
+
+colnames(init2) <- c("x","y")
+init2$step <- rep(4,nrow(init2))
+
+init <- rbind(init,init2)
+
+```
+
+```{r}
+#| fig-format: png
+
+ggplot() +
+  geom_point(data = data_plot %>% mutate(end = step + 1), 
+             aes(x, y,
+                 color = class), show.legend = FALSE)+
+  geom_point(data = init %>% mutate(end = step + 1),
+             aes(x = x, y = y),
+             shape = 4,size = 3)+
+  transition_events(start = step, 
+                    end = end,
+                    enter_length = 1,
+                    exit_length = 1)
+
+```
+
+
