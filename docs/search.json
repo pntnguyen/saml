@@ -235,7 +235,7 @@
     "href": "kmean.html#the-algorithm",
     "title": "7  k-means",
     "section": "7.1 The algorithm",
-    "text": "7.1 The algorithm\nOptimal partition:\n\nChoose from all the partitions into K classes the one with the greatest inter inertia.\nProblem : number of partitions into K classes of the n individuals \\(\\sim \\frac{K^n}{K!}.K!\\)\n\n=&gt; Complete enumeration impossible.\nLocally optimal partition - Heuristic of the type :\n\nWe start from a feasible solution, i.e. a partition \\(\\mathscr{P}_K^0\\)"
+    "text": "7.1 The algorithm\nOptimal partition:\n\nChoose from all the partitions into K classes the one with the greatest inter inertia.\nProblem : number of partitions into K classes of the n individuals \\(\\sim \\frac{K^n}{K!}.K!\\)\n\n=&gt; Complete enumeration impossible.\nLocally optimal partition - Heuristic of the type :\n\nWe start from a feasible solution, i.e. a partition \\(\\mathscr{P}_K^0\\)\nAt step t + 1, we look for a partition \\(\\mathscr{P}_{K}^{t+1} = g(\\mathscr{P}_{K}^{t})\\) such that inertia_inter(\\(\\mathscr{P}_{K}^{t+1}\\)) inertia_inter(\\(\\mathscr{P}_{K}^{t}\\))\nStop when no individual changes class between two iterations\n\n=&gt; Method for partitioning K-means.\nInitialization step"
   },
   {
     "objectID": "ml_theory.html#principle-of-machine-learning",

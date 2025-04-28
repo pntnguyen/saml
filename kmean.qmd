@@ -14,6 +14,14 @@ Locally optimal partition - Heuristic of the type :
 
 -   We start from a feasible solution, i.e. a partition $\mathscr{P}_K^0$
 
+- At step t + 1, we look for a partition  $\mathscr{P}_{K}^{t+1} = g(\mathscr{P}_{K}^{t})$ such that inertia_inter($\mathscr{P}_{K}^{t+1}$) \geq inertia_inter($\mathscr{P}_{K}^{t}$)
+
+- Stop when no individual changes class between two iterations
+
+=\> Method for partitioning K-means.
+
+Initialization step 
+
 
 ```{r,warning=FALSE,message=FALSE}
 
@@ -35,10 +43,9 @@ init <- data.frame(
 
 init$step <- rep(0,nrow(init))
 
-init1 <- init
-init1$step <- rep(1,nrow(init1))
-
-init <- rbind(init,init1)
+# init1 <- init
+# init1$step <- rep(1,nrow(init1))
+# init <- rbind(init,init1)
 
 data$step <- rep(0,nrow(data))
 data$class <- rep(0,nrow(data))
@@ -139,18 +146,21 @@ init <- rbind(init,init2)
 ```{r}
 #| fig-format: png
 
-ggplot() +
+goo <- ggplot() +
   geom_point(data = data_plot %>% mutate(end = step + 1), 
              aes(x, y,
                  color = class), show.legend = FALSE)+
-  geom_point(data = init %>% mutate(end = step + 1),
+  geom_point(data = init  %>%  mutate(end = step + 1),
              aes(x = x, y = y),
-             shape = 4,size = 3)+
+             shape = 4,size = 1,stroke = 2)+
   transition_events(start = step, 
                     end = end,
                     enter_length = 1,
-                    exit_length = 1)
+                    exit_length = 1)+
+  theme_minimal()
 
+anim_save("goo.gif", goo)
 ```
 
+![](goo.gif)
 
