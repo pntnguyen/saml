@@ -10,6 +10,9 @@ book:
     - index.qmd
     - intro.qmd
     - review.qmd
+    - part: ml_theory.qmd
+      chapters: 
+      - lin_reg.qmd
     - part: intro_classification.qmd
       chapters: 
       - pred_per.qmd
@@ -19,9 +22,6 @@ book:
       - unsup.qmd
       - had.qmd
       - kmean.qmd
-    - part: ml_theory.qmd
-      chapters: 
-      - lin_reg.qmd
     - references.qmd
 
 knitr:

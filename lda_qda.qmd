@@ -381,7 +381,6 @@ ggplot() +
     theme_minimal()
 ```
 
-
 ## Practical 2
 
 ```{r}
@@ -398,7 +397,7 @@ library(readr)
 library(gridExtra)
 ```
 
-1. Import the 500 images from the file ***numbers_train.txt***.
+1.  Import the 500 images from the file ***numbers_train.txt***.
 
 ```{r}
 #| echo: true
@@ -446,7 +445,7 @@ for (i in 1:16) {
 grid.arrange(grobs = plots, ncol = 4)
 ```
 
-3. Predict with the **lda** method the classes of the 500 images of the training set and calculate the learning error rate.
+3.  Predict with the **lda** method the classes of the 500 images of the training set and calculate the learning error rate.
 
 ```{r}
 #| echo: true
@@ -473,7 +472,7 @@ error_rate <- mean(y_pred != Ytrain)
 
 ```
 
-4. Import the 500 images from the file ***numbers_test.txt***.
+4.  Import the 500 images from the file ***numbers_test.txt***.
 
 ```{r}
 #| echo: true
@@ -484,7 +483,7 @@ error_rate <- mean(y_pred != Ytrain)
 dataTest <- read.table("./data/numbers_test.txt", header=TRUE)
 ```
 
-5. Now predict the classes of the 500 images of the test set and calculate the test error rate.
+5.  Now predict the classes of the 500 images of the test set and calculate the test error rate.
 
 ```{r}
 #| echo: true
@@ -507,7 +506,3 @@ error_rate <- mean(y_pred != Ytest)
 # Display the result
 cat("Training error rate:", error_rate * 100, "%\n")
 ```
-
-
-
-

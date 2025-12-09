@@ -2,36 +2,33 @@
 
 ## Principle
 
-### First strategy: [Agglomerative Hierarchical Clustering]{style="color:blue"} 
+### First strategy: [Agglomerative Hierarchical Clustering]{style="color:blue"}
 
-  - Start from the bottom of the dendrogram (singletons),
-  
-  - Add the closest parts two by two until you get a single class
+-   Start from the bottom of the dendrogram (singletons),
+
+-   Add the closest parts two by two until you get a single class
 
 ![](fig/classification/HAC.png){fig-align="center"}
 
-> Source: [@janssen2012](https://www.researchgate.net/figure/Example-of-hierarchical-clustering-clusters-are-consecutively-merged-with-the-most_fig3_273456906)
+> Source: [\@janssen2012](https://www.researchgate.net/figure/Example-of-hierarchical-clustering-clusters-are-consecutively-merged-with-the-most_fig3_273456906)
 
 ![](fig/classification/hac2.png){fig-align="center"}
 
 > Source: [Data analysis MOOC of Francois Husson](https://husson.github.io/MOOC_AnaDo/classif_cours_slides.pdf)
 
-
 ::: callout-note
-
-#### **Where to cut the dendogram?**{.unnumbered} 
+#### **Where to cut the dendogram?** {.unnumbered}
 
 [Rule of thumb]{style="color:blue"}
 
-- Selection of a cut when there is a [significant jump]{style="color:blue"}  in the index [by visual]{style="color:blue"} inspection of the tree. This jump reflects the sudden passage from a certain homogeneity of classes to much less homogeneous classes.
-
+-   Selection of a cut when there is a [significant jump]{style="color:blue"} in the index [by visual]{style="color:blue"} inspection of the tree. This jump reflects the sudden passage from a certain homogeneity of classes to much less homogeneous classes.
 :::
 
-### Second strategy: [Divide the hierarchical clustering]{style="color:blue"} 
+### Second strategy: [Divide the hierarchical clustering]{style="color:blue"}
 
-  - Start from the top of the dendrogram (one unique class),
-  
-  - Successive divisions until you get classes reduced to singlets.
+-   Start from the top of the dendrogram (one unique class),
+
+-   Successive divisions until you get classes reduced to singlets.
 
 ![](fig/classification/dhc.webp){fig-align="center"}
 
@@ -39,21 +36,21 @@
 
 Advantages
 
-  - Simple considerations of distances and similarities
-  
-  - No assumption on the number of classes
-  
-  - Can correspond to significant taxonomies
-  
+-   Simple considerations of distances and similarities
+
+-   No assumption on the number of classes
+
+-   Can correspond to significant taxonomies
+
 Disadvantages
 
-  - Choice of the dendogram cutoff.
-  
-  - The partition obtained at a step depends on that of the previous step.
+-   Choice of the dendogram cutoff.
 
-  - Once a decision is made to combine classes, it cannot be undone.
+-   The partition obtained at a step depends on that of the previous step.
 
-  - Too slow for large datasets.
+-   Once a decision is made to combine classes, it cannot be undone.
+
+-   Too slow for large datasets.
 
 ## Practical
 
@@ -96,7 +93,6 @@ labs(title = "Points cloud", x = "X1", y = "X2")
 ```
 :::
 :::
-
 
 #### Construct the dendrogram using maximal link
 
@@ -213,7 +209,7 @@ cutree(treeC, k=2 )
 
 #### Construct the dendrogram by Ward's link
 
-- **Step 1:**
+-   **Step 1:**
 
 ::: columns
 ::: {.column width="40%"}
@@ -257,7 +253,6 @@ $$
 \mu_2 = \frac{C+D}{2} = (0.5,-2.5)
 \end{cases}
 ```
-
 ```{=tex}
 \begin{align}
 
@@ -284,7 +279,6 @@ ggdendrogram(treeW, rotate = FALSE, size = 2)+
 
 ```
 
-
 ### Example 2
 
 ```{r}
@@ -299,7 +293,7 @@ library(factoextra)
 library(ggdendro)
 ```
 
-#### **Step 1: Data preparation**{.unnumbered}
+#### **Step 1: Data preparation** {.unnumbered}
 
 ```{r}
 #| echo: true
@@ -319,7 +313,7 @@ ggplot(data, aes(x = x, y = y)) +
 
 ```
 
-#### **Step 2: HAC**{.unnumbered}
+#### **Step 2: HAC** {.unnumbered}
 
 **Computation of the distance matrix**
 
@@ -357,7 +351,7 @@ ggplot() +
   theme(axis.text.x = element_blank(), axis.ticks.x = element_blank(), panel.grid = element_blank())
 ```
 
-#### **Step 3: Visualization of the results with ggplot2**{.unnumbered}
+#### **Step 3: Visualization of the results with ggplot2** {.unnumbered}
 
 ```{r}
 #| echo: true
@@ -377,14 +371,3 @@ geom_point(size = 3) +
 theme_minimal() +
 ggtitle(paste("Classification in", k, "clusters"))
 ```
-
-
-
-
-
-
-
-
-
-
-

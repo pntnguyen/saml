@@ -2,4 +2,67 @@
 
 ## Principle of machine learning
 
+ML can be divided into three broad categories :
+
+-   **Supervised learning** concerns learning from labeled data. Common supervised learning tasks include classification and regression.
+
+-   **Unsupervised learning** is concerned with finding patterns and structure in unlabeled data. Examples of unsupervised learning include clustering, dimensionality reduction, and generative modeling.
+
+-   **Reinforcement learning** concerns agents which learn by interacting with an environment and changing its behavior to maximize its reward.
+
+## Ingredients of a Supervised machine learning
+
+1.  **The dataset** $D = (X,y)$
+
+X is a matrix of independent variables and y is a vector of dependent variables.
+
+2.  **The model** $f(x,\theta)$
+
+$f$ is used to predict an output from a vector of input variables.
+
+3.  **The lost function** $\mathcal{L}(y,f(x,\theta))$
+
+Allows us to quantify how well the model performs on the observations y.
+
+4.  **Learning the model** means finding the value of $\theta$ that minimizes the cost function.
+
+A commonly used cost function is the squared error $\frac{1}{n}\sum(y_i-\widehat{y_i})$.
+
+Minimizing the squared error lost function is known as the method of least squares, and is typically appropriate for experiments with Gaussian measurement errors.
+
+## Machine learning recipes
+
+ML researchers and data scientists follow standard recipes to obtain models that are useful for prediction problems.
+
+1.  Randomly divides (at least) the dataset $D$ into two mutually exclusive groups D train and D test called the **training and test sets**.
+
+2.  **Training**. The model is fit by minimizing the lost function using only the data in the training set $\theta = \mathrm{argmin}_{\theta} \mathcal{L}(y_{train},f(X_{train},\theta))$
+
+3.  **Predictive power**. The performance of the model is evaluated by computing the lost function using the test set $\mathcal{L}(y_{train},f(X_{train},\theta))$
+
+- **The train and the test errors**:
+
+In-sample error $E_{in} = \mathcal{L}(y_{train},f(X_{train},\theta))$
+
+Out-sample error $E_{out} = \mathcal{L}(y_{test},f(X_{test},\theta))$
+
+We often have $E_{out} \geq E_{in}$
+
+- **Cross-validation**
+
+Splitting the data into mutually exclusive training and test sets provides an unbiased estimate for the predictive performance of the model.
+
+- **Several candidates ML models need to be compared**
+
+Because ML problems involve inference about complex systems where the exact form of the mathematical model that describes the system is unknown.
+
+- **Model selection**
+
+The model that minimizes this out-of-sample error $E_{out}$ is chosen as the best model.
+
+
+
+
+
+
 
